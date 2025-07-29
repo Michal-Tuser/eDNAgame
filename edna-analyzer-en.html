@@ -63,7 +63,7 @@
     ];
 
     // Adjusted fetch path — assumes data-en.json is in the same folder
-    fetch('./data-en.json')
+    fetch('data-en.json')
       .then(response => {
         if (!response.ok) throw new Error("Network response was not ok");
         return response.json();
