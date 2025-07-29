@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   padding: 5vh 5vw;
-  background-color: #f4f4f4;
+  background-color: #fff0f0;
   font-size: clamp(1rem, 5vw, 1.4rem); /* scales but never too small or too big */
 }
 
