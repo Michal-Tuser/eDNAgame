@@ -1,8 +1,8 @@
 {
   "pond": {
     "title": {
-      "en": "Pond eDNA Result",
-      "cz": "Výsledek eDNA z rybníka"
+      "en": "Pond",
+      "cz": "Rybník"
     },
     "codes": [
       {
@@ -23,8 +23,8 @@
   },
   "river": {
     "title": {
-      "en": "River eDNA Result",
-      "cz": "Výsledek eDNA z řeky"
+      "en": "River",
+      "cz": "Řeka"
     },
     "codes": [
       {
@@ -45,8 +45,8 @@
   },
   "lake": {
         "title": {
-          "en": "Lake eDNA Result",
-          "cz": "Výsledek eDNA z jezera"
+          "en": "Lake",
+          "cz": "Jezero"
         },
         "codes": [
           {
