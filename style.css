@@ -4,7 +4,7 @@ body {
   text-align: center;
   padding: 5vh 5vw;
   background-color: #f4f4f4;
-  font-size: clamp(1rem, 5vw, 1.4rem); /* scales but never too small or too big */
+  font-size: clamp(1rem, 6vw, 1.4rem); /* scales but never too small or too big */
 }
 
 button {
