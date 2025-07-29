@@ -1,20 +1,18 @@
-/* Responsive body layout */
+/* Base styles (mobile-first) */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
   padding: 5vh 5vw;
   background-color: #f4f4f4;
-  font-size: 4vw; /* Base font size scales with screen width */
+  font-size: 4vw;
 }
 
-/* Scalable buttons */
 button {
-  font-size: 1.2em; /* Relative to body font size */
+  font-size: 1.2em;
   margin: 2vh 1vw;
   padding: 2vh 6vw;
 }
 
-/* Responsive result container */
 .result {
   display: none;
   margin-top: 5vh;
@@ -24,16 +22,41 @@ button {
   font-size: 1em;
 }
 
-/* Code-style items */
 .code-item {
   font-family: monospace;
   font-size: 1.2em;
   margin: 3vh 0;
 }
 
-/* Scalable select dropdown */
 select {
   margin-left: 2vw;
   font-size: 1em;
   padding: 1vh 1vw;
+}
+
+/* Larger screens (tablet and desktop) */
+@media (min-width: 768px) {
+  body {
+    font-size: 1.2em;
+    padding: 40px;
+  }
+
+  button {
+    font-size: 1em;
+    padding: 10px 30px;
+  }
+
+  .result {
+    padding: 20px;
+    font-size: 1em;
+  }
+
+  .code-item {
+    font-size: 1.1em;
+  }
+
+  select {
+    font-size: 1em;
+    margin-left: 10px;
+  }
 }
