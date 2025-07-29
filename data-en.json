@@ -1,0 +1,23 @@
+{
+  "pond": {
+    "title": "Pond eDNA Result",
+    "codes": {
+      "🧬ACGACA | █ ░ █ ░ █": "Brown Trout",
+      "🧬TTAAGC | ░ █ ░ █ █": "Minnow"
+    }
+  },
+  "river": {
+    "title": "River eDNA Result",
+    "codes": {
+      "🧬CAGTAA | █ ░ █ █ ░": "Otter",
+      "🧬GGTCCT | ▒ █ ░ █ ▒": "Pike"
+    }
+  },
+  "lake": {
+    "title": "Lake eDNA Result",
+    "codes": {
+      "🧬GGTACC | █ █ ░ ▒ ░": "Grayling",
+      "🧬TTCGGA | ░ █ ▒ ░ █": "Perch"
+    }
+  }
+}
