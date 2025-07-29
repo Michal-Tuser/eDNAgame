@@ -1,46 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>eDNA Analyzer (EN)</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 40px;
-      background-color: #f4f4f4;
-    }
-    button {
-      font-size: 1.2em;
-      margin: 10px;
-      padding: 10px 30px;
-    }
-    .result {
-      display: none;
-      margin-top: 30px;
-      border: 1px solid #ccc;
-      padding: 20px;
-      background-color: white;
-    }
-    .code-item {
-      font-family: monospace;
-      font-size: 1.2em;
-      margin: 15px 0;
-    }
-    select {
-      margin-left: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <h1>eDNA Analyzer</h1>
   <p>Select the water source you sampled:</p>
 
-  <button onclick="showResult('pond')">Pond Water</button>
-  <button onclick="showResult('river')">River Water</button>
-  <button onclick="showResult('lake')">Lake Water</button>
-  
   <div id="buttons-container"></div>
 
   <div id="result-container" class="result">
@@ -49,71 +18,6 @@
     <button onclick="checkAnswers()">Check</button>
   </div>
 
-  <script>
-    let waterData = {};
-    let currentCodes = [];
-
-    const speciesList = [
-      "Brown Trout",
-      "Otter",
-      "Grayling",
-      "Minnow",
-      "Perch",
-      "Pike"
-    ];
-
-    // Adjusted fetch path — assumes data-en.json is in the same folder
-   console.log('🚀 Script loaded, starting fetch...');
-
-fetch('data-en.json')
-  .then(res => {
-    console.log('Fetch response:', res);
-    if (!res.ok) throw new Error('Status ' + res.status);
-    return res.json();
-  })
-  .then(data => {
-    console.log('JSON data:', data);
-    waterData = data;
-    createWaterButtons(Object.keys(data));
-  })
-  .catch(err => {
-    console.error('❌ Error loading data-en.json:', err);
-    document.getElementById('buttons-container').innerHTML =
-      '<p style="color:red;">Failed to load data-en.json — check console.</p>';
-  });
-
-    function createWaterButtons(sources) {
-      const container = document.getElementById("buttons-container");
-      container.innerHTML = ""; // Just in case
-      sources.forEach(source => {
-        const btn = document.createElement("button");
-        btn.textContent = capitalize(source) + " Water";
-        btn.onclick = () => showResult(source);
-        container.appendChild(btn);
-      });
-    }
-
-    function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
-    function showResult(source) {
-      const data = waterData[source];
-      document.getElementById("result-title").textContent = data.title;
-
-      const container = document.getElementById("code-container");
-      container.innerHTML = "";
-      currentCodes = Object.entries(data.codes);
-
-      currentCodes.forEach(([code, correct], index) => {
-        const div = document.createElement("div");
-        div.className = "code-item";
-
-        const label = document.createElement("label");
-        label.textContent = code;
-
-        const select = document.createElement("select");
-        select.id = `select-${index}`;
-
-        const defaultOption = document.createElement("option");
-        defaultOption.textContent = "--Select species--";
+  <script src="script.js"></script>
+</body>
+</html>
