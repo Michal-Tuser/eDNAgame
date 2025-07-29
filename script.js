@@ -1,17 +1,16 @@
 let waterData = {};
 let currentCodes = [];
+let lang = document.documentElement.lang || 'en';
 
-const speciesList = [
-  "Brown Trout", "Otter", "Grayling", "Minnow", "Perch", "Pike"
-];
+const speciesList = []; // Will be populated dynamically per water source
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🚀 Script started");
+  console.log("🚀 Script started (lang:", lang, ")");
 
-  fetch('data-en.json')
+  fetch('data.json')
     .then(res => {
       console.log("Fetch status:", res.status);
-      if (!res.ok) throw new Error("Failed to fetch data-en.json");
+      if (!res.ok) throw new Error("Failed to fetch data.json");
       return res.json();
     })
     .then(data => {
@@ -22,44 +21,54 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(err => {
       console.error("❌ Fetch failed:", err);
       document.getElementById('buttons-container').innerHTML =
-        '<p style="color:red;">Failed to load data-en.json</p>';
+        '<p style="color:red;">Failed to load data.json</p>';
     });
 });
 
 function createWaterButtons(sources) {
   const container = document.getElementById("buttons-container");
+  container.innerHTML = "";
   sources.forEach(source => {
     const btn = document.createElement("button");
-    btn.textContent = source.charAt(0).toUpperCase() + source.slice(1) + " Water";
+    btn.textContent = capitalize(source) + (lang === 'cz' ? " voda" : " Water");
     btn.onclick = () => showResult(source);
     container.appendChild(btn);
   });
 }
 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function showResult(source) {
   const data = waterData[source];
-  document.getElementById("result-title").textContent = data.title;
+  document.getElementById("result-title").textContent = data.title[lang];
 
   const container = document.getElementById("code-container");
   container.innerHTML = "";
-  currentCodes = Object.entries(data.codes);
+  currentCodes = data.codes;
 
-  currentCodes.forEach(([code, correct], index) => {
+  // Rebuild speciesList dynamically based on available species in this source
+  const speciesSet = new Set();
+  data.codes.forEach(entry => speciesSet.add(entry.species[lang]));
+  const localSpeciesList = Array.from(speciesSet);
+
+  currentCodes.forEach((entry, index) => {
     const div = document.createElement("div");
     div.className = "code-item";
 
     const label = document.createElement("label");
-    label.textContent = code;
+    label.textContent = entry.code;
 
     const select = document.createElement("select");
     select.id = `select-${index}`;
 
     const defaultOption = document.createElement("option");
-    defaultOption.textContent = "--Select species--";
+    defaultOption.textContent = lang === 'cz' ? "--Vyberte druh--" : "--Select species--";
     defaultOption.value = "";
     select.appendChild(defaultOption);
 
-    speciesList.forEach(species => {
+    localSpeciesList.forEach(species => {
       const option = document.createElement("option");
       option.value = species;
       option.textContent = species;
@@ -80,14 +89,15 @@ function showResult(source) {
 }
 
 function checkAnswers() {
-  currentCodes.forEach(([code, correct], index) => {
+  currentCodes.forEach((entry, index) => {
+    const correct = entry.species[lang];
     const selected = document.getElementById(`select-${index}`).value;
     const resultSpan = document.getElementById(`result-${index}`);
     if (selected === correct) {
-      resultSpan.textContent = "✅ Correct";
+      resultSpan.textContent = "✅ " + (lang === 'cz' ? "Správně" : "Correct");
       resultSpan.style.color = "green";
     } else {
-      resultSpan.textContent = "❌ Wrong";
+      resultSpan.textContent = "❌ " + (lang === 'cz' ? "Špatně" : "Wrong");
       resultSpan.style.color = "red";
     }
   });
