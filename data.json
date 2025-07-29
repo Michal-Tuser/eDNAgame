@@ -44,23 +44,25 @@
     ]
   },
   "lake": {
-        "title": {
-          "en": "Lake",
-          "cz": "Jezero"
-        },
-        "codes": [
-          {
-          "code": "🧬GGTACC | █ █ ░ ▒ ░",
-          "species": {
-            "en": "Grayling",
-            "cz": "Lipan podhorní"
-        },
-          "code": "🧬TTCGGA | ░ █ ▒ ░ █",
-            "species": {
-              "en": "Perch",
-              "cz": "Okoun říční"
-            }
-          }
-        ]
+    "title": {
+      "en": "Lake",
+      "cz": "Jezero"
+    },
+    "codes": [
+      {
+        "code": "🧬GGTACC | █ █ ░ ▒ ░",
+        "species": {
+          "en": "Grayling",
+          "cz": "Lipan podhorní"
+        }
+      },
+      {
+        "code": "🧬TTCGGA | ░ █ ▒ ░ █",
+        "species": {
+          "en": "Perch",
+          "cz": "Okoun říční"
+        }
+      }
+    ]
   }
 }
