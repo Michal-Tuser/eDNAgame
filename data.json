@@ -42,5 +42,25 @@
         }
       }
     ]
+  },
+  "lake": {
+        "title": {
+          "en": "Lake eDNA Result",
+          "cz": "Výsledek eDNA z jezera"
+        },
+        "codes": [
+          {
+          "code": "🧬GGTACC | █ █ ░ ▒ ░",
+          "species": {
+            "en": "Grayling",
+            "cz": "Lipan podhorní"
+        },
+          "code": "🧬TTCGGA | ░ █ ▒ ░ █",
+            "species": {
+              "en": "Perch",
+              "cz": "Okoun říční"
+            }
+          }
+        ]
   }
 }
