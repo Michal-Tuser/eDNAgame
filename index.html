@@ -6,24 +6,45 @@
   <title>Select Language</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <style>
+  /* Mobile-first styles */
+  body {
+    text-align: center;
+    font-family: sans-serif;
+    padding-top: 10vh;
+    font-size: 4vw;
+  }
+
+  h1 {
+    font-size: 6vw;
+    margin-bottom: 5vh;
+  }
+
+  img {
+    width: 25vw;
+    max-width: 150px;
+    height: auto;
+    cursor: pointer;
+    margin: 5vw;
+  }
+
+  /* Larger screens: tablet, laptop, desktop */
+  @media (min-width: 768px) {
     body {
-      text-align: center;
-      font-family: sans-serif;
-      padding-top: 10vh;
-      font-size: 4vw;
+      font-size: 1.2em;
+      padding-top: 80px;
     }
+
     h1 {
-      font-size: 6vw;
-      margin-bottom: 5vh;
+      font-size: 2em;
+      margin-bottom: 40px;
     }
+
     img {
-      width: 25vw;
-      max-width: 150px;
-      height: auto;
-      cursor: pointer;
-      margin: 5vw;
+      width: 100px;
+      margin: 20px;
     }
-  </style>
+  }
+</style>
 </head>
 <body>
   <h1>Zvolte jazyk / Select Language</h1>
