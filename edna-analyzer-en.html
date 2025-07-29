@@ -64,18 +64,19 @@
 
     // Adjusted fetch path — assumes data-en.json is in the same folder
     fetch('data-en.json')
-      .then(response => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-      })
-      .then(data => {
-        waterData = data;
-        createWaterButtons(Object.keys(data));
-      })
-      .catch(error => {
-        console.error("Error loading JSON data:", error);
-        document.body.innerHTML = "<h2 style='color:red;'>Failed to load data-en.json</h2>";
-      });
+    .then(res => {
+      if (!res.ok) throw new Error("Failed: " + res.status);
+      return res.json();
+    })
+    .then(data => {
+      waterData = data;
+      createWaterButtons(Object.keys(data));
+    })
+    .catch(err => {
+      console.error("Error loading JSON:", err);
+      document.getElementById('buttons-container')
+              .innerHTML = "<p style='color:red'>Failed to load data-en.json</p>";
+    });
 
     function createWaterButtons(sources) {
       const container = document.getElementById("buttons-container");
