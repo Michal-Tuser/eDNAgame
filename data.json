@@ -1,0 +1,46 @@
+{
+  "pond": {
+    "title": {
+      "en": "Pond eDNA Result",
+      "cz": "Výsledek eDNA z rybníka"
+    },
+    "codes": [
+      {
+        "code": "🧬ACGACA | █ ░ █ ░ █",
+        "species": {
+          "en": "Brown Trout",
+          "cz": "Pstruh obecný"
+        }
+      },
+      {
+        "code": "🧬TTAAGC | ░ █ ░ █ █",
+        "species": {
+          "en": "Minnow",
+          "cz": "Střevle potoční"
+        }
+      }
+    ]
+  },
+  "river": {
+    "title": {
+      "en": "River eDNA Result",
+      "cz": "Výsledek eDNA z řeky"
+    },
+    "codes": [
+      {
+        "code": "🧬CAGTAA | █ ░ █ █ ░",
+        "species": {
+          "en": "Otter",
+          "cz": "Vydra říční"
+        }
+      },
+      {
+        "code": "🧬GGTCCT | ▒ █ ░ █ ▒",
+        "species": {
+          "en": "Pike",
+          "cz": "Štika obecná"
+        }
+      }
+    ]
+  }
+}
