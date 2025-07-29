@@ -1,8 +1,9 @@
 let waterData = {};
 let currentCodes = [];
 let lang = document.documentElement.lang || 'en';
+let speciesSet = new Set();
 
-const speciesList = []; // Will be populated dynamically per water source
+const speciesList = []; // Final list of all unique species across water types
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🚀 Script started (lang:", lang, ")");
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       console.log("✅ JSON loaded:", data);
       waterData = data;
+      buildFullSpeciesList(data);
       createWaterButtons(Object.keys(data));
     })
     .catch(err => {
@@ -25,12 +27,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+function buildFullSpeciesList(data) {
+  speciesSet.clear();
+  Object.values(data).forEach(source => {
+    source.codes.forEach(entry => {
+      if (entry.species && entry.species[lang]) {
+        speciesSet.add(entry.species[lang]);
+      }
+    });
+  });
+  speciesList.length = 0;
+  speciesList.push(...Array.from(speciesSet).sort());
+}
+
 function createWaterButtons(sources) {
   const container = document.getElementById("buttons-container");
   container.innerHTML = "";
   sources.forEach(source => {
     const btn = document.createElement("button");
-    btn.textContent = capitalize(source) + (lang === 'cz' ? " voda" : " Water");
+    const label = waterData[source].title[lang] || capitalize(source);
+    btn.textContent = label;
     btn.onclick = () => showResult(source);
     container.appendChild(btn);
   });
@@ -48,11 +64,6 @@ function showResult(source) {
   container.innerHTML = "";
   currentCodes = data.codes;
 
-  // Rebuild speciesList dynamically based on available species in this source
-  const speciesSet = new Set();
-  data.codes.forEach(entry => speciesSet.add(entry.species[lang]));
-  const localSpeciesList = Array.from(speciesSet);
-
   currentCodes.forEach((entry, index) => {
     const div = document.createElement("div");
     div.className = "code-item";
@@ -68,7 +79,7 @@ function showResult(source) {
     defaultOption.value = "";
     select.appendChild(defaultOption);
 
-    localSpeciesList.forEach(species => {
+    speciesList.forEach(species => {
       const option = document.createElement("option");
       option.value = species;
       option.textContent = species;
