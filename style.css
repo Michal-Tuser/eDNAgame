@@ -19,13 +19,18 @@ button {
   border: 1px solid #ccc;
   padding: 4vw;
   background-color: white;
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 .code-item {
   font-family: monospace;
   font-size: 1.2em;
   margin: 3vh 0;
+}
+
+label {
+  font-size: 1.2em;
+  vertical-align: middle;
 }
 
 select {
