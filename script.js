@@ -226,6 +226,9 @@
   if (title) title.textContent = msg; else alert(msg);
 }
 
+  // make the function callable from the HTML onclick
+window.checkAnswers = checkAnswers;
+
    // ---------- Load data.json and initialize ----------
   function init() {
     fetch('data.json', { cache: 'no-store' })
