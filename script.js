@@ -117,7 +117,6 @@
     currentWaterKey = key;
     currentCodes = Array.isArray(waterData[key].codes) ? [...waterData[key].codes] : [];
     renderResultTitle(key);
-    renderExtrasControls();
     renderCodeList();
     resultContainer.style.display = 'block';
   }
@@ -129,69 +128,42 @@
       : `Results for: ${waterTitle}`;
   }
 
-  function renderExtrasControls() {
-    let ctr = byId('extras-controls');
-    if (!ctr) {
-      ctr = document.createElement('div');
-      ctr.id = 'extras-controls';
-      ctr.style.margin = '0 0 12px';
-      // Insert before the code list
-      resultContainer.insertBefore(ctr, codeContainer);
-    }
-    ctr.innerHTML = '';
-
-    if (!EXTRAS || EXTRAS.length === 0) return;
-
-    const label = document.createElement('label');
-    label.style.marginRight = '8px';
-    label.textContent = (lang === 'cz') ? 'Další zvířata:' : 'Other animals:';
-
-    const select = document.createElement('select');
-    select.id = 'extras-select';
-    EXTRAS.forEach((e, i) => {
-      const opt = document.createElement('option');
-      opt.value = String(i);
-      opt.textContent = e.species[lang];
-      select.appendChild(opt);
-    });
-
-    const addBtn = document.createElement('button');
-    addBtn.type = 'button';
-    addBtn.style.marginLeft = '8px';
-    addBtn.textContent = (lang === 'cz') ? 'Přidat do tohoto typu vody' : 'Add to this water type';
-    addBtn.addEventListener('click', () => {
-      const idx = parseInt(select.value, 10);
-      if (Number.isInteger(idx) && EXTRAS[idx]) {
-        currentCodes.push(EXTRAS[idx]);
-        renderCodeList();
-      }
-    });
-
-    ctr.appendChild(label);
-    ctr.appendChild(select);
-    ctr.appendChild(addBtn);
-  }
-
   function buildSpeciesList() {
-    const set = new Set();
-    const collect = (arr) => (arr || []).forEach(e => set.add(e.species?.[lang] || ''));
-    WATER_KEYS.forEach(k => collect(waterData[k].codes));
-    collect(EXTRAS);
-    const arr = Array.from(set).filter(Boolean);
-    arr.sort((a, b) => a.localeCompare(b, (lang === 'cz') ? 'cs' : 'en'));
-    speciesList = arr;
+  const set = new Set();
+  const collect = (arr) => (arr || []).forEach(e => set.add(e.species?.[lang] || ''));
+
+  // include all assigned water types
+  WATER_KEYS.forEach(k => collect(waterData[k].codes));
+
+  // include extras (unassigned animals)
+  if (waterData.extras && Array.isArray(waterData.extras.codes)) {
+    collect(waterData.extras.codes);
   }
 
-  function buildSpeciesOptions(selectEl, preselectName) {
-    selectEl.innerHTML = '';
-    speciesList.forEach(name => {
-      const opt = document.createElement('option');
-      opt.value = name;
-      opt.textContent = name;
-      if (preselectName && preselectName === name) opt.selected = true;
-      selectEl.appendChild(opt);
-    });
-  }
+  const arr = Array.from(set).filter(Boolean);
+  arr.sort((a, b) => a.localeCompare(b, (lang === 'cz') ? 'cs' : 'en'));
+  speciesList = arr;
+}
+
+  function addPlaceholderOption(selectEl) {
+  const opt = document.createElement('option');
+  opt.value = '';
+  opt.textContent = (lang === 'cz') ? '— vyberte druh —' : '— choose species —';
+  opt.disabled = true;
+  opt.selected = true;
+  selectEl.appendChild(opt);
+}
+  
+  function buildSpeciesOptions(selectEl) {
+  selectEl.innerHTML = '';
+  addPlaceholderOption(selectEl);
+  speciesList.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    selectEl.appendChild(opt);
+  });
+}
 
   function renderCodeList() {
     codeContainer.innerHTML = '';
@@ -216,7 +188,7 @@
 
       const select = document.createElement('select');
       select.id = `select-${index}`;
-      buildSpeciesOptions(select, null);
+      buildSpeciesOptions(select);
 
       const resultSpan = document.createElement('span');
       resultSpan.id = `result-${index}`;
