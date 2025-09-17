@@ -302,10 +302,9 @@
         // build water buttons
         buildWaterButtons();
 
-        // auto-open first water type (optional)
-        if (WATER_KEYS.length > 0) {
-          openWaterType(WATER_KEYS[0]);
-        }
+        // hide results until a water type is selected
+        resultContainer.style.display = 'none';
+        resultTitle.textContent = '';
 
         // wire optional buttons
         wireButtons();
