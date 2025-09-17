@@ -2,61 +2,61 @@
   "stream": {
     "title": { "en": "Stream", "cz": "Potok" },
     "codes": [
-      { "code": "🧬<span style="color:#2ECC71">C</span><span style="color:#9B59B6">G</span><span style="color:#3498DB">T</span><span style="color:#E74C3C">A</span><span style="color:#2ECC71">C</span><span style="color:#E74C3C">A</span> |  🎣  ", "species": { "en": "Brown Trout",  "cz": "Pstruh obecný" } },
-      { "code": "🧬<span style="color:#E74C3C">A</span><span style="color:#2ECC71">C</span><span style="color:#9B59B6">G</span><span style="color:#3498DB">T</span><span style="color:#9B59B6">G</span><span style="color:#3498DB">T</span> |  🦋  ", "species": { "en": "Grayling",     "cz": "Lipan podhorní" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Rainbow Trout", "cz": "Pstruh duhový" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Common Kingfisher", "cz": "Ledňáček říční" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Eurasian Beaver",   "cz": "Bobr evropský" } }
+      { "sequence": "CGTACA", "icon": "🎣", "species": { "en": "Brown Trout", "cz": "Pstruh obecný" } },
+      { "sequence": "ACGTGT", "icon": "🦋", "species": { "en": "Grayling", "cz": "Lipan podhorní" } },
+      { "sequence": "GACTTC", "icon": "🌈", "species": { "en": "Rainbow Trout", "cz": "Pstruh duhový" } },
+      { "sequence": "CCTAGT", "icon": "💎", "species": { "en": "Common Kingfisher", "cz": "Ledňáček říční" } },
+      { "sequence": "ATCCGA", "icon": "🦫", "species": { "en": "Eurasian Beaver", "cz": "Bobr evropský" } }
     ]
   },
   "river": {
     "title": { "en": "River", "cz": "Řeka" },
     "codes": [
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Barbel",      "cz": "Parma obecná" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Roach",       "cz": "Plotice obecná" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Bream",       "cz": "Cejn velký" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Wels Catfish","cz": "Sumec velký" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Eurasian Otter","cz": "Vydra říční" } }
+      { "sequence": "ATGCGT", "icon": "🌊", "species": { "en": "Barbel", "cz": "Parma obecná" } },
+      { "sequence": "GATCCA", "icon": "🔴", "species": { "en": "Roach", "cz": "Plotice obecná" } },
+      { "sequence": "TACGCT", "icon": "🪼", "species": { "en": "Bream", "cz": "Cejn velký" } },
+      { "sequence": "TCGATC", "icon": "🐋", "species": { "en": "Wels Catfish", "cz": "Sumec velký" } },
+      { "sequence": "GGCATA", "icon": "🦦", "species": { "en": "Eurasian Otter", "cz": "Vydra říční" } }
     ]
   },
   "estuary": {
-    "title": { "en": "Estuary", "cz": "Ústí" },
+    "title": { "en": "Estuary", "cz": "Ústí řeky" },
     "codes": [
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Sturgeon",         "cz": "Jeseter" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Salmon",           "cz": "Losos" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Plaice/Flounder",  "cz": "Platýs" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "European Eel",     "cz": "Úhoř říční" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Great Cormorant",  "cz": "Kormorán velký" } }
+      { "sequence": "TAGCAT", "icon": "🐉", "species": { "en": "Great Sturgeon", "cz": "Jeseter velký" } },
+      { "sequence": "ATGCGA", "icon": "🐟", "species": { "en": "Atlantic Salmon", "cz": "Losos atlantský" } },
+      { "sequence": "CATGCT", "icon": "👀", "species": { "en": "European Flounder", "cz": "Platýs bradavičnatý" } },
+      { "sequence": "TTCGAC", "icon": "🐍", "species": { "en": "European Eel", "cz": "Úhoř říční" } },
+      { "sequence": "TGCAAG", "icon": "🪽", "species": { "en": "Great Cormorant", "cz": "Kormorán velký" } }
     ]
   },
   "lake": {
     "title": { "en": "Lake", "cz": "Jezero" },
     "codes": [
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Perch",       "cz": "Okoun říční" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Tench",       "cz": "Lín obecný" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Northern Pike","cz": "Štika obecná" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Grey Heron",  "cz": "Volavka popelavá" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Frog",        "cz": "Žába" } }
+      { "sequence": "CGATGG", "icon": "👁️", "species": { "en": "Perch", "cz": "Okoun říční" } },
+      { "sequence": "CTAGTG", "icon": "🐌", "species": { "en": "Tench", "cz": "Lín obecný" } },
+      { "sequence": "CAGTGC", "icon": "🐊", "species": { "en": "Northern Pike", "cz": "Štika obecná" } },
+      { "sequence": "GTTCGA", "icon": "🪶", "species": { "en": "Grey Heron", "cz": "Volavka popelavá" } },
+      { "sequence": "CTGACC", "icon": "🐸", "species": { "en": "European Tree Frog", "cz": "Rosnička zelená" } }
     ]
   },
   "pond": {
     "title": { "en": "Pond", "cz": "Rybník" },
     "codes": [
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Common Carp", "cz": "Kapr obecný" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Grass Carp",  "cz": "Amur bílý" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Zander",      "cz": "Candát obecný" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Mallard",     "cz": "Kachna divoká" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Wild Boar",   "cz": "Prase divoké" } }
+      { "sequence": "AGCTTA", "icon": "🎏", "species": { "en": "Common Carp", "cz": "Kapr obecný" } },
+      { "sequence": "GCTAGC", "icon": "🌿", "species": { "en": "Grass Carp", "cz": "Amur bílý" } },
+      { "sequence": "GTACCT", "icon": "🦖", "species": { "en": "Pikeperch", "cz": "Candát obecný" } },
+      { "sequence": "AGTCCG", "icon": "🦆", "species": { "en": "Mallard", "cz": "Kachna divoká" } },
+      { "sequence": "CAGATC", "icon": "🐗", "species": { "en": "Wild Boar", "cz": "Prase divoké" } }
     ]
   },
-
   "extras": {
     "title": { "en": "Other animals", "cz": "Další zvířata" },
     "codes": [
-      // Put any species you DON'T want fixed to a specific water type here.
-      // Example entries (feel free to delete/change):
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Crayfish", "cz": "Rak" } },
-      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Mink",     "cz": "Norek" } }
+      { "sequence": "TGCATG", "icon": "❄️", "species": { "en": "Brook Trout", "cz": "Siven americký" } },
+      { "sequence": "ACTGGA", "icon": "🦇", "species": { "en": "Largemouth Bass", "cz": "Okounek pstruhový" } },
+      { "sequence": "TGGACT", "icon": "🌿", "species": { "en": "Red Fox", "cz": "Liška obecná" } },
+      { "sequence": "ACCGTG", "icon": "🦖", "species": { "en": "European Hedgehog", "cz": "Ježek západní" } },
+      { "sequence": "GATGAC", "icon": "🦆", "species": { "en": "House Mouse", "cz": "Myš domácí" } },
     ]
   }
 }
