@@ -6,49 +6,112 @@
   <title>Select Language</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <style>
-  /* Mobile-first styles */
-  body {
-    text-align: center;
-    font-family: sans-serif;
-    padding-top: 10vh;
-    font-size: 4vw;
-  }
-
-  h1 {
-    font-size: 6vw;
-    margin-bottom: 5vh;
-  }
-
-  img {
-    width: 25vw;
-    max-width: 150px;
-    height: auto;
-    cursor: pointer;
-    margin: 5vw;
-  }
-
-  /* Larger screens: tablet, laptop, desktop */
-  @media (min-width: 768px) {
-    body {
-      font-size: 1.2em;
-      padding-top: 80px;
+    body { text-align: center; font-family: sans-serif; padding-top: 10vh; font-size: 4vw; }
+    h1 { font-size: 6vw; margin-bottom: 3vh; }
+    img { width: 25vw; max-width: 150px; height: auto; cursor: pointer; margin: 5vw; }
+    .difficulty, .start-row { display:none; }
+    .difficulty { margin: 3vh 0; }
+    .difficulty label { display:inline-flex; align-items:center; gap:8px; font-size:4vw; cursor:pointer; }
+    .btn {
+      display:inline-block; padding:0.7em 1.2em; border:1px solid #222; border-radius:12px;
+      text-decoration:none; font-size:4vw;
     }
+    .lang-row { margin-bottom: 2vh; }
 
-    h1 {
-      font-size: 2em;
-      margin-bottom: 40px;
+    @media (min-width: 768px) {
+      body { font-size: 1.2em; padding-top: 80px; }
+      h1 { font-size: 2em; margin-bottom: 20px; }
+      img { width: 100px; margin: 20px; }
+      .difficulty label, .btn { font-size: 1em; }
     }
-
-    img {
-      width: 100px;
-      margin: 20px;
-    }
-  }
-</style>
+  </style>
 </head>
 <body>
-  <h1>Zvolte jazyk / Select Language</h1>
-  <a href="edna-analyzer-cz.html"><img src="images/cz-flag.png" alt="Čeština"></a>
-  <a href="edna-analyzer-en.html"><img src="images/en-flag.png" alt="English"></a>
+  <h1 id="title">Zvolte jazyk / Select Language</h1>
+
+  <!-- Step 1: choose language -->
+  <div class="lang-row" aria-label="Language">
+    <a id="czPick" href="edna-analyzer-cz.html"><img src="images/cz-flag.png" alt="Čeština"></a>
+    <a id="enPick" href="edna-analyzer-en.html"><img src="images/en-flag.png" alt="English"></a>
+  </div>
+
+  <!-- Step 2: difficulty appears AFTER language is selected -->
+  <div class="difficulty" id="difficulty" role="radiogroup" aria-label="Difficulty">
+    <label><input type="radio" name="level" value="icons" checked> <span id="labelIcons">Začátečník (ikonky)</span></label>
+    <label><input type="radio" name="level" value="sequences"> <span id="labelSeq">Profík (sekvence)</span></label>
+  </div>
+
+  <div class="start-row" id="startRow">
+    <a id="startBtn" class="btn" href="#">Spustit hru</a>
+  </div>
+
+  <script>
+    // Localized labels and target pages
+    const L = {
+      cz: {
+        title: "Vyberte obtížnost",
+        icons: "Začátečník (ikonky)",
+        seq:   "Profík (sekvence)",
+        start: "Spustit hru",
+        target: "edna-analyzer-cz.html"
+      },
+      en: {
+        title: "Choose difficulty",
+        icons: "Beginner (icons)",
+        seq:   "Pro (sequences)",
+        start: "Start",
+        target: "edna-analyzer-en.html"
+      }
+    };
+
+    let chosenLang = null;
+
+    const titleEl   = document.getElementById('title');
+    const diffBox   = document.getElementById('difficulty');
+    const startRow  = document.getElementById('startRow');
+    const startBtn  = document.getElementById('startBtn');
+    const labelIcons= document.getElementById('labelIcons');
+    const labelSeq  = document.getElementById('labelSeq');
+
+    function currentLevel() {
+      const sel = document.querySelector('input[name="level"]:checked');
+      return sel ? sel.value : 'icons';
+    }
+
+    function updateStartHref() {
+      if (!chosenLang) return;
+      const level = currentLevel();
+      startBtn.href = `${L[chosenLang].target}?level=${encodeURIComponent(level)}`;
+    }
+
+    function selectLanguage(lang) {
+      chosenLang = lang;
+      // Update UI text to the chosen language
+      titleEl.textContent = L[lang].title;
+      labelIcons.textContent = L[lang].icons;
+      labelSeq.textContent   = L[lang].seq;
+      startBtn.textContent   = L[lang].start;
+      // Reveal difficulty + start button
+      diffBox.style.display  = 'block';
+      startRow.style.display = 'block';
+      updateStartHref();
+    }
+
+    // Intercept flag clicks to pick language first (and NOT navigate yet)
+    document.getElementById('czPick').addEventListener('click', (e) => {
+      e.preventDefault();
+      selectLanguage('cz');
+    });
+    document.getElementById('enPick').addEventListener('click', (e) => {
+      e.preventDefault();
+      selectLanguage('en');
+    });
+
+    // Keep start link in sync when difficulty changes
+    document.addEventListener('change', (e) => {
+      if (e.target && e.target.name === 'level') updateStartHref();
+    });
+  </script>
 </body>
 </html>
+
