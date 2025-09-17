@@ -1,68 +1,62 @@
 {
-  "pond": {
-    "title": {
-      "en": "Pond",
-      "cz": "Rybník"
-    },
+  "stream": {
+    "title": { "en": "Stream", "cz": "Potok" },
     "codes": [
-      {
-        "code": "🧬ACGACA | █ ░ █ ░ █",
-        "species": {
-          "en": "Brown Trout",
-          "cz": "Pstruh obecný"
-        }
-      },
-      {
-        "code": "🧬TTAAGC | ░ █ ░ █ █",
-        "species": {
-          "en": "Minnow",
-          "cz": "Střevle potoční"
-        }
-      }
+      { "code": "🧬<span style="color:#2ECC71">C</span><span style="color:#9B59B6">G</span><span style="color:#3498DB">T</span><span style="color:#E74C3C">A</span><span style="color:#2ECC71">C</span><span style="color:#E74C3C">A</span> |  🎣  ", "species": { "en": "Brown Trout",  "cz": "Pstruh obecný" } },
+      { "code": "🧬<span style="color:#E74C3C">A</span><span style="color:#2ECC71">C</span><span style="color:#9B59B6">G</span><span style="color:#3498DB">T</span><span style="color:#9B59B6">G</span><span style="color:#3498DB">T</span> |  🦋  ", "species": { "en": "Grayling",     "cz": "Lipan podhorní" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Rainbow Trout", "cz": "Pstruh duhový" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Common Kingfisher", "cz": "Ledňáček říční" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Eurasian Beaver",   "cz": "Bobr evropský" } }
     ]
   },
   "river": {
-    "title": {
-      "en": "River",
-      "cz": "Řeka"
-    },
+    "title": { "en": "River", "cz": "Řeka" },
     "codes": [
-      {
-        "code": "🧬CAGTAA | █ ░ █ █ ░",
-        "species": {
-          "en": "Otter",
-          "cz": "Vydra říční"
-        }
-      },
-      {
-        "code": "🧬GGTCCT | ▒ █ ░ █ ▒",
-        "species": {
-          "en": "Pike",
-          "cz": "Štika obecná"
-        }
-      }
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Barbel",      "cz": "Parma obecná" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Roach",       "cz": "Plotice obecná" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Bream",       "cz": "Cejn velký" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Wels Catfish","cz": "Sumec velký" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Eurasian Otter","cz": "Vydra říční" } }
+    ]
+  },
+  "estuary": {
+    "title": { "en": "Estuary", "cz": "Ústí" },
+    "codes": [
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Sturgeon",         "cz": "Jeseter" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Salmon",           "cz": "Losos" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Plaice/Flounder",  "cz": "Platýs" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "European Eel",     "cz": "Úhoř říční" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Great Cormorant",  "cz": "Kormorán velký" } }
     ]
   },
   "lake": {
-    "title": {
-      "en": "Lake",
-      "cz": "Jezero"
-    },
+    "title": { "en": "Lake", "cz": "Jezero" },
     "codes": [
-      {
-        "code": "🧬GGTACC | █ █ ░ ▒ ░",
-        "species": {
-          "en": "Grayling",
-          "cz": "Lipan podhorní"
-        }
-      },
-      {
-        "code": "🧬TTCGGA | ░ █ ▒ ░ █",
-        "species": {
-          "en": "Perch",
-          "cz": "Okoun říční"
-        }
-      }
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Perch",       "cz": "Okoun říční" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Tench",       "cz": "Lín obecný" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Northern Pike","cz": "Štika obecná" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Grey Heron",  "cz": "Volavka popelavá" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Frog",        "cz": "Žába" } }
+    ]
+  },
+  "pond": {
+    "title": { "en": "Pond", "cz": "Rybník" },
+    "codes": [
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Common Carp", "cz": "Kapr obecný" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Grass Carp",  "cz": "Amur bílý" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Zander",      "cz": "Candát obecný" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Mallard",     "cz": "Kachna divoká" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Wild Boar",   "cz": "Prase divoké" } }
+    ]
+  },
+
+  "extras": {
+    "title": { "en": "Other animals", "cz": "Další zvířata" },
+    "codes": [
+      // Put any species you DON'T want fixed to a specific water type here.
+      // Example entries (feel free to delete/change):
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Crayfish", "cz": "Rak" } },
+      { "code": "🧬<SEQ> | <ICON>", "species": { "en": "Mink",     "cz": "Norek" } }
     ]
   }
 }
