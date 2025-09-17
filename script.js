@@ -1,115 +1,324 @@
-let waterData = {};
-let currentCodes = [];
-let lang = document.documentElement.lang || 'en';
-let speciesSet = new Set();
+// script.js — EDNA game (language, difficulty, water types, extras)
+// ---------------------------------------------------------------
+// Required HTML IDs on analyzer pages:
+// - buttons-container   : where water-type buttons go
+// - result-container    : wraps the results area (hidden by default is fine)
+// - result-title        : title above the code list ("Results for: River")
+// - code-container      : list of code rows is rendered here
+//
+// Optional IDs (if you have buttons for checking/resetting):
+// - check-btn           : clicking it evaluates answers (✔️/❌)
+// - reset-btn           : clears all selected answers
+//
+// CSS note: add these to style.css for colored bases (if not already):
+// .base { font-weight: 600; }
+// .base-a { color: #d32f2f; } /* A */
+// .base-c { color: #1976d2; } /* C */
+// .base-g { color: #388e3c; } /* G */
+// .base-t { color: #f57c00; } /* T */
 
-const speciesList = []; // Final list of all unique species across water types
+(function () {
+  // ---------- Language detection (cz/en) ----------
+  function detectLang() {
+    const htmlLang = (document.documentElement.lang || '').toLowerCase();
+    if (htmlLang.startsWith('cs') || htmlLang.startsWith('cz')) return 'cz';
+    if (htmlLang.startsWith('en')) return 'en';
+    const path = (location.pathname || '').toLowerCase();
+    if (path.includes('-cz')) return 'cz';
+    if (path.includes('-en')) return 'en';
+    return 'en';
+  }
+  const lang = detectLang();
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("🚀 Script started (lang:", lang, ")");
+  // ---------- Difficulty (icons / sequences) ----------
+  const qs = new URLSearchParams(window.location.search);
+  const level = (qs.get('level') === 'sequences') ? 'sequences' : 'icons';
 
-  fetch('data.json')
-    .then(res => {
-      console.log("Fetch status:", res.status);
-      if (!res.ok) throw new Error("Failed to fetch data.json");
-      return res.json();
-    })
-    .then(data => {
-      console.log("✅ JSON loaded:", data);
-      waterData = data;
-      buildFullSpeciesList(data);
-      createWaterButtons(Object.keys(data));
-    })
-    .catch(err => {
-      console.error("❌ Fetch failed:", err);
-      document.getElementById('buttons-container').innerHTML =
-        '<p style="color:red;">Failed to load data.json</p>';
+  // ---------- State ----------
+  let waterData = {};         // full JSON
+  let WATER_KEYS = [];        // keys except "extras"
+  let EXTRAS = [];            // array of extra entries
+  let speciesList = [];       // all species names in current language (sorted)
+  let currentWaterKey = null; // which water type is open
+  let currentCodes = [];      // entries for the open water type (plus any added extras)
+
+  // ---------- DOM refs (safe getters) ----------
+  function byId(id) { return document.getElementById(id); }
+
+  function ensureContainer(id) {
+    let el = byId(id);
+    if (!el) {
+      el = document.createElement('div');
+      el.id = id;
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+
+  const buttonsContainer = ensureContainer('buttons-container');
+  const resultContainer  = ensureContainer('result-container');
+  const resultTitle      = ensureContainer('result-title');
+  const codeContainer    = ensureContainer('code-container');
+
+  // ---------- Data helpers (support new + old formats) ----------
+  function getSeqAndIcon(entry) {
+    // New format: { sequence: "ACGT", icon: "🐟", species: {...} }
+    if (entry.sequence !== undefined || entry.icon !== undefined) {
+      return { seq: entry.sequence || '', icon: entry.icon || '' };
+    }
+    // Back-compat: { code: "🧬ACGT | 🐟", species: {...} }
+    if (entry.code) {
+      const cleaned = String(entry.code).trim().replace(/^🧬\s*/, '');
+      const parts = cleaned.split('|').map(s => s.trim());
+      const seqPart = parts[0] || '';
+      const iconPart = parts[1] || '';
+      return { seq: seqPart, icon: iconPart };
+    }
+    return { seq: '', icon: '' };
+  }
+
+  // Render-time coloring of plain A/C/G/T (no HTML in JSON needed)
+  function colorize(seq) {
+    const map = {
+      'A': '<span class="base base-a">A</span>',
+      'C': '<span class="base base-c">C</span>',
+      'G': '<span class="base base-g">G</span>',
+      'T': '<span class="base base-t">T</span>'
+    };
+    return String(seq)
+      .split('')
+      .map(ch => map[ch.toUpperCase()] || ch)
+      .join('');
+  }
+
+  // Returns either colored sequence HTML (for sequences mode) or icon text
+  function formatForDisplay(entry) {
+    const { seq, icon } = getSeqAndIcon(entry);
+    if (level === 'sequences' && seq) {
+      return { isHTML: true, html: colorize(seq) };
+    }
+    // fallback and also default in icons mode
+    return { isHTML: false, text: icon || '' };
+  }
+
+  // ---------- Build UI ----------
+  function buildWaterButtons() {
+    buttonsContainer.innerHTML = '';
+    WATER_KEYS.forEach(key => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = waterData[key].title[lang];
+      btn.addEventListener('click', () => openWaterType(key));
+      buttonsContainer.appendChild(btn);
     });
-});
+  }
 
-function buildFullSpeciesList(data) {
-  speciesSet.clear();
-  Object.values(data).forEach(source => {
-    source.codes.forEach(entry => {
-      if (entry.species && entry.species[lang]) {
-        speciesSet.add(entry.species[lang]);
+  function openWaterType(key) {
+    currentWaterKey = key;
+    currentCodes = Array.isArray(waterData[key].codes) ? [...waterData[key].codes] : [];
+    renderResultTitle(key);
+    renderExtrasControls();
+    renderCodeList();
+    resultContainer.style.display = 'block';
+  }
+
+  function renderResultTitle(key) {
+    const waterTitle = waterData[key].title[lang];
+    resultTitle.textContent = (lang === 'cz')
+      ? `Výsledky pro: ${waterTitle}`
+      : `Results for: ${waterTitle}`;
+  }
+
+  function renderExtrasControls() {
+    let ctr = byId('extras-controls');
+    if (!ctr) {
+      ctr = document.createElement('div');
+      ctr.id = 'extras-controls';
+      ctr.style.margin = '0 0 12px';
+      // Insert before the code list
+      resultContainer.insertBefore(ctr, codeContainer);
+    }
+    ctr.innerHTML = '';
+
+    if (!EXTRAS || EXTRAS.length === 0) return;
+
+    const label = document.createElement('label');
+    label.style.marginRight = '8px';
+    label.textContent = (lang === 'cz') ? 'Další zvířata:' : 'Other animals:';
+
+    const select = document.createElement('select');
+    select.id = 'extras-select';
+    EXTRAS.forEach((e, i) => {
+      const opt = document.createElement('option');
+      opt.value = String(i);
+      opt.textContent = e.species[lang];
+      select.appendChild(opt);
+    });
+
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.style.marginLeft = '8px';
+    addBtn.textContent = (lang === 'cz') ? 'Přidat do tohoto typu vody' : 'Add to this water type';
+    addBtn.addEventListener('click', () => {
+      const idx = parseInt(select.value, 10);
+      if (Number.isInteger(idx) && EXTRAS[idx]) {
+        currentCodes.push(EXTRAS[idx]);
+        renderCodeList();
       }
     });
-  });
-  speciesList.length = 0;
-  speciesList.push(...Array.from(speciesSet).sort());
-}
 
-function createWaterButtons(sources) {
-  const container = document.getElementById("buttons-container");
-  container.innerHTML = "";
-  sources.forEach(source => {
-    const btn = document.createElement("button");
-    const label = waterData[source].title[lang] || capitalize(source);
-    btn.textContent = label;
-    btn.onclick = () => showResult(source);
-    container.appendChild(btn);
-  });
-}
+    ctr.appendChild(label);
+    ctr.appendChild(select);
+    ctr.appendChild(addBtn);
+  }
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+  function buildSpeciesList() {
+    const set = new Set();
+    const collect = (arr) => (arr || []).forEach(e => set.add(e.species?.[lang] || ''));
+    WATER_KEYS.forEach(k => collect(waterData[k].codes));
+    collect(EXTRAS);
+    const arr = Array.from(set).filter(Boolean);
+    arr.sort((a, b) => a.localeCompare(b, (lang === 'cz') ? 'cs' : 'en'));
+    speciesList = arr;
+  }
 
-function showResult(source) {
-  const data = waterData[source];
-  document.getElementById("result-title").textContent = data.title[lang];
+  function buildSpeciesOptions(selectEl, preselectName) {
+    selectEl.innerHTML = '';
+    speciesList.forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      if (preselectName && preselectName === name) opt.selected = true;
+      selectEl.appendChild(opt);
+    });
+  }
 
-  const container = document.getElementById("code-container");
-  container.innerHTML = "";
-  currentCodes = data.codes;
+  function renderCodeList() {
+    codeContainer.innerHTML = '';
 
-  currentCodes.forEach((entry, index) => {
-    const div = document.createElement("div");
-    div.className = "code-item";
+    currentCodes.forEach((entry, index) => {
+      const row = document.createElement('div');
+      row.className = 'code-row';
 
-    const label = document.createElement("label");
-    label.textContent = entry.code;
+      const label = document.createElement('span');
+      label.textContent = `${index + 1}. `;
+      label.style.marginRight = '6px';
 
-    const select = document.createElement("select");
-    select.id = `select-${index}`;
+      const codeEl = document.createElement('div');
+      codeEl.className = 'code-item';
 
-    const defaultOption = document.createElement("option");
-    defaultOption.textContent = lang === 'cz' ? "--Vyberte druh--" : "--Select species--";
-    defaultOption.value = "";
-    select.appendChild(defaultOption);
+      const out = formatForDisplay(entry);
+      if (out.isHTML) {
+        codeEl.innerHTML = out.html; // colored bases
+      } else {
+        codeEl.textContent = out.text; // icons
+      }
 
-    speciesList.forEach(species => {
-      const option = document.createElement("option");
-      option.value = species;
-      option.textContent = species;
-      select.appendChild(option);
+      const select = document.createElement('select');
+      select.id = `select-${index}`;
+      buildSpeciesOptions(select, null);
+
+      const resultSpan = document.createElement('span');
+      resultSpan.id = `result-${index}`;
+      resultSpan.style.marginLeft = '10px';
+
+      row.appendChild(label);
+      row.appendChild(codeEl);
+      row.appendChild(select);
+      row.appendChild(resultSpan);
+      codeContainer.appendChild(row);
+    });
+  }
+
+  // ---------- Checking answers (optional, if you have a "Check" button) ----------
+  function checkAnswers() {
+    let correct = 0;
+    currentCodes.forEach((entry, index) => {
+      const select = byId(`select-${index}`);
+      const resultSpan = byId(`result-${index}`);
+      if (!select || !resultSpan) return;
+
+      const picked = select.value;
+      const target = entry.species?.[lang] || '';
+      const isOk = picked === target;
+
+      resultSpan.textContent = isOk ? '✔️' : '❌';
+      resultSpan.setAttribute('aria-label', isOk ? 'correct' : 'wrong');
+
+      if (isOk) correct += 1;
     });
 
-    const resultSpan = document.createElement("span");
-    resultSpan.id = `result-${index}`;
-    resultSpan.style.marginLeft = "10px";
+    const total = currentCodes.length;
+    const msg = (lang === 'cz')
+      ? `Správně: ${correct} / ${total}`
+      : `Correct: ${correct} / ${total}`;
+    // If you have a status element, show it; else log:
+    const status = byId('status-line');
+    if (status) status.textContent = msg; else console.log(msg);
+  }
 
-    div.appendChild(label);
-    div.appendChild(select);
-    div.appendChild(resultSpan);
-    container.appendChild(div);
-  });
+  // ---------- Reset selections (optional, if you have a "Reset" button) ----------
+  function resetSelections() {
+    currentCodes.forEach((_, index) => {
+      const select = byId(`select-${index}`);
+      const resultSpan = byId(`result-${index}`);
+      if (select) select.selectedIndex = -1;
+      if (resultSpan) resultSpan.textContent = '';
+    });
+    const status = byId('status-line');
+    if (status) status.textContent = '';
+  }
 
-  document.getElementById("result-container").style.display = "block";
-}
+  // ---------- Wire optional buttons if present ----------
+  function wireButtons() {
+    const checkBtn = byId('check-btn');
+    if (checkBtn) checkBtn.addEventListener('click', checkAnswers);
 
-function checkAnswers() {
-  currentCodes.forEach((entry, index) => {
-    const correct = entry.species[lang];
-    const selected = document.getElementById(`select-${index}`).value;
-    const resultSpan = document.getElementById(`result-${index}`);
-    if (selected === correct) {
-      resultSpan.textContent = "✅ " + (lang === 'cz' ? "Správně" : "Correct");
-      resultSpan.style.color = "green";
-    } else {
-      resultSpan.textContent = "❌ " + (lang === 'cz' ? "Špatně" : "Wrong");
-      resultSpan.style.color = "red";
-    }
-  });
-}
+    const resetBtn = byId('reset-btn');
+    if (resetBtn) resetBtn.addEventListener('click', resetSelections);
+  }
+
+  // ---------- Load data.json and initialize ----------
+  function init() {
+    fetch('data.json', { cache: 'no-store' })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(json => {
+        waterData = json || {};
+
+        // keys except extras
+        WATER_KEYS = Object.keys(waterData).filter(k => k !== 'extras');
+
+        // extras array (if present)
+        EXTRAS = (waterData.extras && Array.isArray(waterData.extras.codes))
+          ? waterData.extras.codes
+          : [];
+
+        // species list (sorted)
+        buildSpeciesList();
+
+        // build water buttons
+        buildWaterButtons();
+
+        // auto-open first water type (optional)
+        if (WATER_KEYS.length > 0) {
+          openWaterType(WATER_KEYS[0]);
+        }
+
+        // wire optional buttons
+        wireButtons();
+      })
+      .catch(err => {
+        console.error('Failed to load data.json:', err);
+        const msg = (lang === 'cz')
+          ? 'Nepodařilo se načíst data. Zkontrolujte prosím soubor data.json.'
+          : 'Failed to load data. Please check data.json.';
+        resultTitle.textContent = msg;
+        resultContainer.style.display = 'block';
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
