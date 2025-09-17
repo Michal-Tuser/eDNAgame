@@ -8,7 +8,6 @@
 //
 // Optional IDs (if you have buttons for checking/resetting):
 // - check-btn           : clicking it evaluates answers (✔️/❌)
-// - reset-btn           : clears all selected answers
 //
 // CSS note: add these to style.css for colored bases (if not already):
 // .base { font-weight: 600; }
@@ -171,6 +170,7 @@
     currentCodes.forEach((entry, index) => {
       const row = document.createElement('div');
       row.className = 'code-row';
+      row.dataset.correct = entry.species[lang];
 
       const label = document.createElement('span');
       label.textContent = `${index + 1}. `;
@@ -191,6 +191,7 @@
       buildSpeciesOptions(select);
 
       const resultSpan = document.createElement('span');
+      resultSpan.className = 'result-mark';
       resultSpan.id = `result-${index}`;
       resultSpan.style.marginLeft = '10px';
 
@@ -204,53 +205,28 @@
 
   // ---------- Checking answers (optional, if you have a "Check" button) ----------
   function checkAnswers() {
-    let correct = 0;
-    currentCodes.forEach((entry, index) => {
-      const select = byId(`select-${index}`);
-      const resultSpan = byId(`result-${index}`);
-      if (!select || !resultSpan) return;
+  const rows = document.querySelectorAll('#code-container .code-row');
+  let ok = 0;
+  rows.forEach((row) => {
+    const correct = row.dataset.correct || '';
+    const select  = row.querySelector('select');
+    const mark    = row.querySelector('.result-mark');
+    if (!select || !mark) return;
+    const picked = select.value || '';
+    const isOk = picked === correct;
+    mark.textContent = isOk ? '✔️' : '❌';
+    if (isOk) ok++;
+  });
+  // show a simple summary (no extra elements needed)
+  const msg = (document.documentElement.lang?.startsWith('cs') || location.pathname.includes('-cz'))
+    ? `Správně: ${ok} / ${rows.length}`
+    : `Correct: ${ok} / ${rows.length}`;
+  // put it in the title if available; else alert
+  const title = document.getElementById('result-title');
+  if (title) title.textContent = msg; else alert(msg);
+}
 
-      const picked = select.value;
-      const target = entry.species?.[lang] || '';
-      const isOk = picked === target;
-
-      resultSpan.textContent = isOk ? '✔️' : '❌';
-      resultSpan.setAttribute('aria-label', isOk ? 'correct' : 'wrong');
-
-      if (isOk) correct += 1;
-    });
-
-    const total = currentCodes.length;
-    const msg = (lang === 'cz')
-      ? `Správně: ${correct} / ${total}`
-      : `Correct: ${correct} / ${total}`;
-    // If you have a status element, show it; else log:
-    const status = byId('status-line');
-    if (status) status.textContent = msg; else console.log(msg);
-  }
-
-  // ---------- Reset selections (optional, if you have a "Reset" button) ----------
-  function resetSelections() {
-    currentCodes.forEach((_, index) => {
-      const select = byId(`select-${index}`);
-      const resultSpan = byId(`result-${index}`);
-      if (select) select.selectedIndex = -1;
-      if (resultSpan) resultSpan.textContent = '';
-    });
-    const status = byId('status-line');
-    if (status) status.textContent = '';
-  }
-
-  // ---------- Wire optional buttons if present ----------
-  function wireButtons() {
-    const checkBtn = byId('check-btn');
-    if (checkBtn) checkBtn.addEventListener('click', checkAnswers);
-
-    const resetBtn = byId('reset-btn');
-    if (resetBtn) resetBtn.addEventListener('click', resetSelections);
-  }
-
-  // ---------- Load data.json and initialize ----------
+   // ---------- Load data.json and initialize ----------
   function init() {
     fetch('data.json', { cache: 'no-store' })
       .then(r => {
@@ -278,8 +254,6 @@
         resultContainer.style.display = 'none';
         resultTitle.textContent = '';
 
-        // wire optional buttons
-        wireButtons();
       })
       .catch(err => {
         console.error('Failed to load data.json:', err);
