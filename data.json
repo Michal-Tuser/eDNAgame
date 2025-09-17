@@ -56,7 +56,7 @@
       { "sequence": "ACTGGA", "icon": "🦇", "species": { "en": "Largemouth Bass", "cz": "Okounek pstruhový" } },
       { "sequence": "TGGACT", "icon": "🌿", "species": { "en": "Red Fox", "cz": "Liška obecná" } },
       { "sequence": "ACCGTG", "icon": "🦖", "species": { "en": "European Hedgehog", "cz": "Ježek západní" } },
-      { "sequence": "GATGAC", "icon": "🦆", "species": { "en": "House Mouse", "cz": "Myš domácí" } },
+      { "sequence": "GATGAC", "icon": "🦆", "species": { "en": "House Mouse", "cz": "Myš domácí" } }
     ]
   }
 }
