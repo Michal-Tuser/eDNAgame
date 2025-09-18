@@ -51,57 +51,52 @@ select {
   padding: 1vh 1vw;
 }
 
-/* Keep results from stretching edge-to-edge on large screens */
-#code-container {
+/* Center the results as one column */
+#result-container {
   max-width: clamp(340px, 92vw, 880px);
-  margin: 0 auto;
-  text-align: left;
+  margin: 0 auto;          /* centers the whole block */
+  text-align: left;        /* rows + button align the same way */
 }
 
-/* One row per animal in the results */
+/* Rows stay compact on one line */
 #code-container .code-row {
   display: flex;
   align-items: center;
-  gap: 0.6rem;  /* small, consistent spacing */
+  gap: 0.6rem;
   flex-wrap: nowrap;
 }
 
-/* Hide the index (first child) – remove this block if you want numbers */
-#code-container .code-row > :first-child { 
-  opacity: .6;
+/* (optional) small fixed index column */
+#code-container .code-row > :first-child {
   min-width: 2.4ch;
   text-align: right;
+  opacity: .6;
 }
 
-/* Icon / colored sequence: don't stretch to fill the row */
+/* Icon/seq cell doesn't stretch across the page */
 #code-container .code-row > :nth-child(2) {
   white-space: nowrap;
   flex: 0 1 auto;
 }
 
-/* Icon/sequence column stays on one line and takes remaining space */
-#code-container .code-item {
-  white-space: nowrap;
-  flex: 1 1 auto;
-}
-
-/* Keep the dropdown compact and aligned to the right */
+/* Dropdown stays next to the sequence */
 #code-container select {
   flex: 0 0 auto;
-  /* optional: sensible width so it doesn't balloon */
   width: clamp(160px, 30vw, 320px);
-  margin-left: 0;     /* <-- make sure this isn't 'auto' anywhere */
+  margin-left: 0; /* ensure there's no 'auto' anywhere */
 }
 
-/* Small, stable space for the ✔️/❌ mark */
+/* Result mark compact */
 #code-container .result-mark {
   width: 1.5em;
   flex: 0 0 auto;
   text-align: center;
 }
 
-#result-container button {
-  display: inline-block;
+/* Align the button with the left edge of rows */
+#result-container .actions {
+  display: flex;
+  justify-content: flex-start; /* left */
   margin-top: .75rem;
 }
 
