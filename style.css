@@ -51,19 +51,31 @@ select {
   padding: 1vh 1vw;
 }
 
+/* Keep results from stretching edge-to-edge on large screens */
+#code-container {
+  max-width: clamp(340px, 92vw, 880px);
+  margin: 0 auto;
+}
+
 /* One row per animal in the results */
 #code-container .code-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.25rem 0;
+  gap: 0.6rem;  /* small, consistent spacing */
+  flex-wrap: nowrap;
 }
 
 /* Hide the index (first child) – remove this block if you want numbers */
 #code-container .code-row > :first-child { 
   opacity: .6;
-  min-width: 2ch;
+  min-width: 2.4ch;
   text-align: right;
+}
+
+/* Icon / colored sequence: don't stretch to fill the row */
+#code-container .code-row > :nth-child(2) {
+  white-space: nowrap;
+  flex: 0 1 auto;
 }
 
 /* Icon/sequence column stays on one line and takes remaining space */
@@ -74,13 +86,16 @@ select {
 
 /* Keep the dropdown compact and aligned to the right */
 #code-container select {
-  margin-left: auto;          /* pushes select to the right */
-  max-width: min(60vw, 320px);
+  flex: 0 0 auto;
+  /* optional: sensible width so it doesn't balloon */
+  width: clamp(160px, 30vw, 320px);
+  margin-left: 0;     /* <-- make sure this isn't 'auto' anywhere */
 }
 
 /* Small, stable space for the ✔️/❌ mark */
 #code-container .result-mark {
   width: 1.5em;
+  flex: 0 0 auto;
   text-align: center;
 }
 
