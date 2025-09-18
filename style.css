@@ -55,6 +55,7 @@ select {
 #code-container {
   max-width: clamp(340px, 92vw, 880px);
   margin: 0 auto;
+  text-align: left;
 }
 
 /* One row per animal in the results */
@@ -97,6 +98,11 @@ select {
   width: 1.5em;
   flex: 0 0 auto;
   text-align: center;
+}
+
+#result-container button {
+  display: inline-block;
+  margin-top: .75rem;
 }
 
 .base { font-weight: 600; }
