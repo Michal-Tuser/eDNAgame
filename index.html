@@ -22,6 +22,13 @@
     margin: 5vw;
   }
 
+  .icons-sample { display:inline-flex; gap:.35em; line-height:1; font-size:1.2em; }
+  .seq-sample { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight:700; letter-spacing:.02em; }
+  .base-a { color:#d32f2f; } /* A */
+  .base-c { color:#1976d2; } /* C */
+  .base-g { color:#388e3c; } /* G */
+  .base-t { color:#f57c00; } /* T */
+    
   .difficulty, .start-row { display:none; }
   .difficulty { margin: 3vh 0; }
   .difficulty label { display:inline-flex; align-items:center; gap:8px; font-size:4vw; cursor:pointer; }
@@ -54,8 +61,11 @@
 
   <!-- Step 2: difficulty appears AFTER language is selected -->
   <div class="difficulty" id="difficulty" role="radiogroup" aria-label="Difficulty">
-    <label><input type="radio" name="level" value="icons" checked> <span id="labelIcons">Začátečník (ikonky)</span></label>
-    <label><input type="radio" name="level" value="sequences"> <span id="labelSeq">Profík (sekvence)</span></label>
+    <label><input type="radio" name="level" value="icons" checked> <span id="labelIcons">Začátečník</span>
+    <span class="icons-sample" aria-hidden="true" title="Icons">
+      🦆 🐟 🦫 </span></label>
+    <label><input type="radio" name="level" value="sequences"> <span id="labelSeq">Profík</span>
+    <span id="seqPreview" class="seq-sample" data-seq="TAGCAT">TAGCAT</span></label>
   </div>
 
   <div class="start-row" id="startRow">
@@ -67,15 +77,15 @@
     const L = {
       cz: {
         title: "Vyberte obtížnost",
-        icons: "Začátečník (ikonky)",
-        seq:   "Profík (sekvence)",
+        icons: "Začátečník",
+        seq:   "Profík",
         start: "Spustit hru",
         target: "edna-analyzer-cz.html"
       },
       en: {
         title: "Choose difficulty",
-        icons: "Beginner (icons)",
-        seq:   "Pro (sequences)",
+        icons: "Beginner",
+        seq:   "Pro",
         start: "Start",
         target: "edna-analyzer-en.html"
       }
@@ -128,9 +138,20 @@
     document.addEventListener('change', (e) => {
       if (e.target && e.target.name === 'level') updateStartHref();
     });
+
+    function colorizeDNA(seq){
+    const map = { A:'<b class="base-a">A</b>', C:'<b class="base-c">C</b>', G:'<b class="base-g">G</b>', T:'<b class="base-t">T</b>' };
+    return (seq||'').toUpperCase().split('').map(ch => map[ch] || ch).join('');
+  }
+  // render once
+  (function(){
+    const el = document.getElementById('seqPreview');
+    if (el) el.innerHTML = colorizeDNA(el.dataset.seq || el.textContent.trim());
+  })();
   </script>
 </body>
 </html>
+
 
 
 
