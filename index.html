@@ -11,19 +11,15 @@
     /* Safe default for other images (logo etc.) */
   img { max-width: 100%; height: auto; }
 
-  /* Uniform flag tiles (letterboxed) */
+  /* Uniform flag tiles (cover) */
   .flag {
     width: 25vw;
     max-width: 150px;
     aspect-ratio: 3 / 2;
-    object-fit: contain;       /* no crop */
-    display: inline-block;     /* ensure background shows as a tile */
-    background: #fff;          /* letterbox area */
-    border: 1px solid #e5e7eb;
+    object-fit: cover;       /*crop  to fill*/
     border-radius: 10px;
     cursor: pointer;
     margin: 5vw;
-    box-sizing: border-box;
   }
 
   .difficulty, .start-row { display:none; }
@@ -40,7 +36,7 @@
     h1 { font-size: 2em; margin-bottom: 20px; }
 
     /* IMPORTANT: target .flag here, not img */
-    .flag { width: 100px; margin: 20px; }
+    .flag { width: 100px; aspect-ratio: 3 / 2; margin: 20px; }
 
     .difficulty label, .btn { font-size: 1em; }
   }
@@ -135,6 +131,7 @@
   </script>
 </body>
 </html>
+
 
 
 
