@@ -7,7 +7,7 @@
 // - code-container      : list of code rows is rendered here
 //
 // Optional IDs (if you have buttons for checking/resetting):
-// - check-btn           : clicking it evaluates answers (✔️/❌)
+// - check-btn           : clicking it evaluates answers (✅/❌)
 //
 // CSS note: add these to style.css for colored bases (if not already):
 // .base { font-weight: 600; }
@@ -214,7 +214,7 @@
     if (!select || !mark) return;
     const picked = select.value || '';
     const isOk = picked === correct;
-    mark.textContent = isOk ? '✔️' : '❌';
+    mark.textContent = isOk ? '✅' : '❌';
     if (isOk) ok++;
   });
   // show a simple summary (no extra elements needed)
