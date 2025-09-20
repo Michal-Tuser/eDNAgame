@@ -158,4 +158,36 @@ select {
   .base-g { color: #388e3c; }  /* G */
   .base-t { color: #f57c00; }  /* T */
 
+  /* --- Analyzer: make icon/DNA match index.html previews --- */
+
+/* The element that holds the icon or the colored DNA */
+#code-container .code-item {
+  /* DNA look (also scales emoji nicely) */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: clamp(0.98rem, 2.4vw, 1.1rem);
+  line-height: 1.15;
+  white-space: nowrap;
+
+  /* kill the tall spacing that was pushing rows apart */
+  margin: 0;
+}
+
+/* If the icon is an <img>, size like index.html icons */
+#code-container .code-item img {
+  width: clamp(22px, 2.6vw, 28px);
+  height: clamp(22px, 2.6vw, 28px);
+  object-fit: contain;
+  vertical-align: -2px;      /* baseline align with text */
+  margin-right: 0.25rem;     /* tiny gap if text follows */
+}
+
+/* Keep the dropdown reasonably compact next to it */
+#code-container select {
+  width: clamp(160px, 30vw, 320px);
+  margin-left: 0;            /* make sure nothing pushes it away */
+}
+
+  
 }
