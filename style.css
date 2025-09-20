@@ -73,10 +73,25 @@ select {
   opacity: .6;
 }
 
-/* Icon/seq cell doesn't stretch across the page */
+/* The 2nd cell in each row is the icon or colored sequence */
 #code-container .code-row > :nth-child(2) {
+  /* DNA look (also helps emoji size) */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  /* Size similar to index.html previews, but responsive */
+  font-size: clamp(0.98rem, 2.4vw, 1.1rem);
+  line-height: 1.15;
   white-space: nowrap;
-  flex: 0 1 auto;
+}
+
+/* If the 2nd cell contains an IMG (real species icon), size it like the index icons */
+#code-container .code-row > :nth-child(2) img {
+  width: clamp(22px, 2.6vw, 28px);
+  height: clamp(22px, 2.6vw, 28px);
+  object-fit: contain;
+  vertical-align: -2px;   /* nudge to align with text baseline */
+  margin-right: 0.25rem;  /* tiny gap if text follows */
 }
 
 /* Dropdown stays next to the sequence */
