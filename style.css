@@ -189,5 +189,73 @@ select {
   margin-left: 0;            /* make sure nothing pushes it away */
 }
 
-  
+  /* === Analyzer mobile/compact overrides (put at the very end) === */
+
+/* Use the width of the phone; keep it centered */
+#result-container {
+  max-width: 96vw;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Make base text larger on phones */
+@media (max-width: 600px) {
+  body {
+    font-size: clamp(1.05rem, 6.8vw, 1.6rem); /* bump everything up */
+    padding: 3vh 3vw;                          /* smaller side paddings */
+  }
+
+  /* Hide the index column to remove the left white gutter */
+  /* Works whether you grouped rows (.code-row) or not */
+  #code-container .code-row > :first-child,
+  #code-container > :nth-child(3n+1) { 
+    display: none; 
+  }
+
+  /* Icon / colored DNA: big and readable (like index.html) */
+  #code-container .code-item {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-weight: 700;
+    letter-spacing: .02em;
+    font-size: clamp(1.1rem, 4.6vw, 1.35rem);
+    line-height: 1.2;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  /* If the item is an <img>, size it similarly */
+  #code-container .code-item img {
+    width: clamp(26px, 5.6vw, 34px);
+    height: clamp(26px, 5.6vw, 34px);
+    object-fit: contain;
+    vertical-align: -2px;
+    margin-right: .35rem;
+  }
+
+  /* Dropdown: larger font, bigger tap target, uses more width */
+  #code-container select {
+    width: clamp(68vw, 72vw, 92vw); /* let it breathe on mobile */
+    font-size: clamp(1rem, 4.8vw, 1.2rem);
+    padding: 0.7em 0.9em;
+    margin-left: 0; /* ensure no 'auto' pushes it away */
+  }
+
+  /* Keep rows snug (if you have .code-row) */
+  #code-container .code-row {
+    gap: 0.5rem;
+    padding: 6px 0;
+    flex-wrap: nowrap;
+  }
+}
+
+/* Tablet/desktop: keep things compact and centered */
+@media (min-width: 601px) {
+  #result-container { max-width: 860px; }
+  #code-container select { width: clamp(200px, 28vw, 320px); }
+  #code-container .code-item { font-size: clamp(1rem, 1.4vw, 1.1rem); }
+  #code-container .code-item img {
+    width: clamp(24px, 1.8vw, 28px);
+    height: clamp(24px, 1.8vw, 28px);
+  }
+}
 }
