@@ -122,4 +122,41 @@ button{
   #code-container .code-row > :nth-child(2) img{
     width: clamp(24px, 1.8vw, 28px); height: clamp(24px, 1.8vw, 28px);
   }
+
 }
+/* === BIG DEBUG OVERRIDES — v7 (temporary) === */
+body::after{
+  content:"CSS v7 overrides ON";
+  position:fixed; bottom:8px; right:8px; z-index:9999;
+  background:#000; color:#fff; padding:2px 6px; font:12px/1 sans-serif; opacity:.6;
+}
+
+/* Make the icon/DNA cell HUGE */
+#code-container .code-item,
+#code-container .code-row > :nth-child(2){
+  font-size: min(8vw, 36px) !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+  margin: 0 !important;
+}
+
+/* If that cell contains an image icon, also grow it */
+#code-container .code-item img,
+#code-container .code-row > :nth-child(2) img{
+  width: min(10vw, 48px) !important;
+  height: min(10vw, 48px) !important;
+  object-fit: contain !important;
+  vertical-align: -2px !important;
+  margin-right: .35rem !important;
+}
+
+/* Make the dropdown bigger too so it doesn't look tiny */
+#code-container select{
+  font-size: min(5vw, 22px) !important;
+  padding: 0.7em 0.9em !important;
+  width: clamp(68vw, 72vw, 92vw) !important;
+  margin-left: 0 !important;
+}
+
+/* Optional: hide the left index (saves space) */
+#code-container .code-row > :first-child{ display:none !important; }
