@@ -124,39 +124,62 @@ button{
   }
 
 }
-/* === BIG DEBUG OVERRIDES — v7 (temporary) === */
-body::after{
-  content:"CSS v7 overrides ON";
-  position:fixed; bottom:8px; right:8px; z-index:9999;
-  background:#000; color:#fff; padding:2px 6px; font:12px/1 sans-serif; opacity:.6;
+/* === MOBILE TUNING v8 (<=600px): larger icons/sequences, smaller selects, bigger text === */
+@media (max-width: 600px){
+  /* Global text bump on phone */
+  body{
+    font-size: clamp(1.2rem, 7.6vw, 1.9rem);
+    padding: 3vh 3vw;
+  }
+
+  /* Hide row index to reclaim space */
+  #code-container .code-row > :first-child { display: none; }
+
+  /* ICON / COLORED SEQUENCE — much larger */
+  #code-container .code-item,
+  #code-container .code-row > :nth-child(2){
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-weight: 700;
+    letter-spacing: .02em;
+    font-size: min(12vw, 44px);   /* was ~8vw → now ~2× */
+    line-height: 1.15;
+    white-space: nowrap;
+    margin: 0;
+  }
+  /* If that cell contains an <img> icon */
+  #code-container .code-item img,
+  #code-container .code-row > :nth-child(2) img{
+    width:  min(14vw, 52px);
+    height: min(14vw, 52px);
+    object-fit: contain;
+    vertical-align: -2px;
+    margin-right: .4rem;
+  }
+
+  /* DROPDOWN — a bit smaller and shorter so icon/seq stands out more */
+  #code-container select{
+    font-size: min(4.5vw, 18px);  /* down from the big debug size */
+    padding: 0.55em 0.8em;
+    width: clamp(54vw, 60vw, 70vw); /* shorter than before */
+    margin-left: 0;
+  }
+
+  /* Keep rows snug */
+  #code-container .code-row{
+    gap: 0.5rem;
+    padding: 6px 0;
+    flex-wrap: nowrap;
+  }
 }
 
-/* Make the icon/DNA cell HUGE */
-#code-container .code-item,
-#code-container .code-row > :nth-child(2){
-  font-size: min(8vw, 36px) !important;
-  line-height: 1.1 !important;
-  white-space: nowrap !important;
-  margin: 0 !important;
+/* === DESKTOP KEEPERS (>=768px) — unchanged nice look === */
+@media (min-width: 768px){
+  #result-container{ max-width: 860px; }
+  #code-container select{ width: clamp(200px, 28vw, 320px); }
+  #code-container .code-item,
+  #code-container .code-row > :nth-child(2){ font-size: clamp(1rem, 1.4vw, 1.1rem); }
+  #code-container .code-item img,
+  #code-container .code-row > :nth-child(2) img{
+    width: clamp(24px, 1.8vw, 28px); height: clamp(24px, 1.8vw, 28px);
+  }
 }
-
-/* If that cell contains an image icon, also grow it */
-#code-container .code-item img,
-#code-container .code-row > :nth-child(2) img{
-  width: min(10vw, 48px) !important;
-  height: min(10vw, 48px) !important;
-  object-fit: contain !important;
-  vertical-align: -2px !important;
-  margin-right: .35rem !important;
-}
-
-/* Make the dropdown bigger too so it doesn't look tiny */
-#code-container select{
-  font-size: min(5vw, 22px) !important;
-  padding: 0.7em 0.9em !important;
-  width: clamp(68vw, 72vw, 92vw) !important;
-  margin-left: 0 !important;
-}
-
-/* Optional: hide the left index (saves space) */
-#code-container .code-row > :first-child{ display:none !important; }
