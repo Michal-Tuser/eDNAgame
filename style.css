@@ -1,269 +1,125 @@
-/* Base styles (mobile-first) */
-body {
+/* ===== Base (mobile-first) ===== */
+body{
   font-family: Arial, sans-serif;
   text-align: center;
   padding: 5vh 5vw;
-  background-color: #f4f4f4;
-  font-size: clamp(1rem, 6vw, 1.4rem); /* scales but never too small or too big */
+  background:#f4f4f4;
+  font-size: clamp(1rem, 6vw, 1.4rem);
 }
 
-button {
+button{
   font-size: 1.2em;
   margin: 2vh 1vw;
   padding: 2vh 6vw;
 }
 
-.flag {
-  width: 25vw;
-  max-width: 150px;
-  aspect-ratio: 3 / 2;       /* pick the box ratio you want */
-  object-fit: contain;        /* no crop */
-  background: #fff;           /* shows as letterbox if needed */
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 5vw;
+/* Language flags on index.html */
+.flag{
+  width:25vw; max-width:150px; aspect-ratio:3/2;
+  object-fit:contain; background:#fff; border:1px solid #e5e7eb;
+  border-radius:10px; cursor:pointer; margin:5vw;
 }
 
-.result {
-  display: none;
-  margin-top: 5vh;
-  border: 1px solid #ccc;
-  padding: 4vw;
-  background-color: white;
-  font-size: 1.2em;
-}
+/* “old” analyzer item (kept for safety) */
+.code-item{ font-family: monospace; font-size:1.2em; margin:0; }
 
-.code-item {
-  font-family: monospace;
-  font-size: 1.2em;
-  margin: 3vh 0;
-}
+/* Color mapping */
+.base{ font-weight:600; }
+.base-a{ color:#d32f2f; } /* A */
+.base-c{ color:#1976d2; } /* C */
+.base-g{ color:#388e3c; } /* G */
+.base-t{ color:#f57c00; } /* T */
 
-label {
-  font-size: 1.2em;
-  vertical-align: middle;
-}
-
-select {
-  margin-left: 2vw;
-  font-size: 1em;
-  padding: 1vh 1vw;
-}
-
-/* Center the results as one column */
-#result-container {
-  max-width: clamp(340px, 92vw, 880px);
-  margin: 0 auto;          /* centers the whole block */
-  text-align: left;        /* rows + button align the same way */
-}
-
-/* Rows stay compact on one line */
-#code-container .code-row {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex-wrap: nowrap;
-}
-
-/* (optional) small fixed index column */
-#code-container .code-row > :first-child {
-  min-width: 2.4ch;
-  text-align: right;
-  opacity: .6;
-}
-
-/* The 2nd cell in each row is the icon or colored sequence */
-#code-container .code-row > :nth-child(2) {
-  /* DNA look (also helps emoji size) */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  /* Size similar to index.html previews, but responsive */
-  font-size: clamp(0.98rem, 2.4vw, 1.1rem);
-  line-height: 1.15;
-  white-space: nowrap;
-}
-
-/* If the 2nd cell contains an IMG (real species icon), size it like the index icons */
-#code-container .code-row > :nth-child(2) img {
-  width: clamp(22px, 2.6vw, 28px);
-  height: clamp(22px, 2.6vw, 28px);
-  object-fit: contain;
-  vertical-align: -2px;   /* nudge to align with text baseline */
-  margin-right: 0.25rem;  /* tiny gap if text follows */
-}
-
-/* Dropdown stays next to the sequence */
-#code-container select {
-  flex: 0 0 auto;
-  width: clamp(160px, 30vw, 320px);
-  margin-left: 0; /* ensure there's no 'auto' anywhere */
-}
-
-/* Result mark compact */
-#code-container .result-mark {
-  width: 1.5em;
-  flex: 0 0 auto;
-  text-align: center;
-}
-
-/* Align the button with the left edge of rows */
-#result-container .actions {
-  display: flex;
-  justify-content: flex-start; /* left */
-  margin-top: .75rem;
-}
-
-.base { font-weight: 600; }
-.base-a { color: #d32f2f; }  /* A */
-.base-c { color: #1976d2; }  /* C */
-.base-g { color: #388e3c; }  /* G */
-.base-t { color: #f57c00; }  /* T */
-
-/* Larger screens (tablet and desktop) */
-@media (min-width: 768px) {
-  body {
-    font-size: 1.2em;
-    padding: 40px;
-  }
-
-  button {
-    font-size: 1em;
-    padding: 10px 30px;
-  }
-  
-  .flag {
-    width: 100px;
-    aspect-ratio: 3 / 2;
-    margin: 20px;
-  }
-  
-  .result {
-    padding: 20px;
-    font-size: 1em;
-  }
-
-  .code-item {
-    font-size: 1.1em;
-  }
-
-  select {
-    font-size: 1em;
-    margin-left: 10px;
-  }
-  .base { font-weight: 600; }
-  .base-a { color: #d32f2f; }  /* A */
-  .base-c { color: #1976d2; }  /* C */
-  .base-g { color: #388e3c; }  /* G */
-  .base-t { color: #f57c00; }  /* T */
-
-  /* --- Analyzer: make icon/DNA match index.html previews --- */
-
-/* The element that holds the icon or the colored DNA */
-#code-container .code-item {
-  /* DNA look (also scales emoji nicely) */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  font-size: clamp(0.98rem, 2.4vw, 1.1rem);
-  line-height: 1.15;
-  white-space: nowrap;
-
-  /* kill the tall spacing that was pushing rows apart */
-  margin: 0;
-}
-
-/* If the icon is an <img>, size like index.html icons */
-#code-container .code-item img {
-  width: clamp(22px, 2.6vw, 28px);
-  height: clamp(22px, 2.6vw, 28px);
-  object-fit: contain;
-  vertical-align: -2px;      /* baseline align with text */
-  margin-right: 0.25rem;     /* tiny gap if text follows */
-}
-
-/* Keep the dropdown reasonably compact next to it */
-#code-container select {
-  width: clamp(160px, 30vw, 320px);
-  margin-left: 0;            /* make sure nothing pushes it away */
-}
-
-  /* === Analyzer mobile/compact overrides (put at the very end) === */
-
-/* Use the width of the phone; keep it centered */
-#result-container {
-  max-width: 96vw;
+/* ===== Analyzer layout ===== */
+#result-container{
+  max-width: 96vw;     /* wide on phones */
   margin: 0 auto;
-  text-align: left;
+  text-align: left;    /* rows + button share left edge */
 }
 
-/* Make base text larger on phones */
-@media (max-width: 600px) {
-  body {
-    font-size: clamp(1.05rem, 6.8vw, 1.6rem); /* bump everything up */
-    padding: 3vh 3vw;                          /* smaller side paddings */
-  }
+#code-container{
+  display:flex;
+  flex-direction:column;
+  gap:8px;             /* space between rows */
+}
 
-  /* Hide the index column to remove the left white gutter */
-  /* Works whether you grouped rows (.code-row) or not */
-  #code-container .code-row > :first-child,
-  #code-container > :nth-child(3n+1) { 
-    display: none; 
-  }
+/* If your script wraps each row in .code-row this will apply; if not, harmless */
+#code-container .code-row{
+  display:flex; align-items:center; gap:10px; flex-wrap:nowrap; padding:6px 0;
+}
 
-  /* Icon / colored DNA: big and readable (like index.html) */
-  #code-container .code-item {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-weight: 700;
-    letter-spacing: .02em;
+/* OPTIONAL: hide row index to save space on small screens (turned on below for <=600px) */
+#code-container .code-row > :first-child{ min-width:2.4ch; text-align:right; opacity:.6; }
+
+/* Icon / colored DNA column — match index.html vibe */
+#code-container .code-item,
+#code-container .code-row > :nth-child(2){
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight:700; letter-spacing:.02em;
+  font-size: clamp(0.98rem, 2.4vw, 1.1rem);
+  line-height:1.15; white-space:nowrap;
+}
+
+/* If that cell contains an <img> icon */
+#code-container .code-item img,
+#code-container .code-row > :nth-child(2) img{
+  width: clamp(22px, 2.6vw, 28px);
+  height: clamp(22px, 2.6vw, 28px);
+  object-fit:contain; vertical-align:-2px; margin-right:.25rem;
+}
+
+/* Dropdown next to it */
+#code-container select{
+  width: clamp(160px, 30vw, 320px);
+  font-size: 1em; padding: .7em .9em;
+  margin-left:0; /* make sure nothing pushes it away */
+}
+
+/* ✔/✖ mark cell if you use it */
+#code-container .result-mark{ width:1.5em; text-align:center; }
+
+/* “Check answer” button area aligns with rows */
+#result-container .actions{ display:flex; justify-content:flex-start; margin-top:10px; }
+
+/* ===== Small phones (<= 600px) ===== */
+@media (max-width: 600px){
+  body{ font-size: clamp(1.05rem, 6.8vw, 1.6rem); padding:3vh 3vw; }
+
+  /* Hide the index numbers on phones to reclaim space */
+  #code-container .code-row > :first-child{ display:none; }
+
+  /* Bigger icon/DNA and bigger icon images */
+  #code-container .code-item,
+  #code-container .code-row > :nth-child(2){
     font-size: clamp(1.1rem, 4.6vw, 1.35rem);
-    line-height: 1.2;
-    white-space: nowrap;
-    margin: 0;
   }
-
-  /* If the item is an <img>, size it similarly */
-  #code-container .code-item img {
+  #code-container .code-item img,
+  #code-container .code-row > :nth-child(2) img{
     width: clamp(26px, 5.6vw, 34px);
     height: clamp(26px, 5.6vw, 34px);
-    object-fit: contain;
-    vertical-align: -2px;
-    margin-right: .35rem;
+    margin-right:.35rem;
   }
 
-  /* Dropdown: larger font, bigger tap target, uses more width */
-  #code-container select {
-    width: clamp(68vw, 72vw, 92vw); /* let it breathe on mobile */
+  /* Wider, more touch-friendly select */
+  #code-container select{
+    width: clamp(68vw, 72vw, 92vw);
     font-size: clamp(1rem, 4.8vw, 1.2rem);
-    padding: 0.7em 0.9em;
-    margin-left: 0; /* ensure no 'auto' pushes it away */
-  }
-
-  /* Keep rows snug (if you have .code-row) */
-  #code-container .code-row {
-    gap: 0.5rem;
-    padding: 6px 0;
-    flex-wrap: nowrap;
   }
 }
 
-/* Tablet/desktop: keep things compact and centered */
-@media (min-width: 601px) {
-  #result-container { max-width: 860px; }
-  #code-container select { width: clamp(200px, 28vw, 320px); }
-  #code-container .code-item { font-size: clamp(1rem, 1.4vw, 1.1rem); }
-  #code-container .code-item img {
-    width: clamp(24px, 1.8vw, 28px);
-    height: clamp(24px, 1.8vw, 28px);
-  }
-}
-  /* DEBUG: remove after testing */
-body::after {
-  content: "CSS v5 loaded";
-  position: fixed; bottom: 8px; right: 8px;
-  background: #000; color: #fff; padding: 2px 6px; font: 12px/1 sans-serif;
-  z-index: 9999; opacity: .6; border-radius: 4px;
-}
+/* ===== Tablets / desktop (>= 768px) ===== */
+@media (min-width: 768px){
+  body{ font-size:1.2em; padding:40px; }
+  button{ font-size:1em; padding:10px 30px; }
 
+  .flag{ width:100px; margin:20px; }
+
+  #result-container{ max-width: 860px; } /* tidy column on big screens */
+  #code-container select{ width: clamp(200px, 28vw, 320px); }
+  #code-container .code-item,
+  #code-container .code-row > :nth-child(2){ font-size: clamp(1rem, 1.4vw, 1.1rem); }
+  #code-container .code-item img,
+  #code-container .code-row > :nth-child(2) img{
+    width: clamp(24px, 1.8vw, 28px); height: clamp(24px, 1.8vw, 28px);
+  }
 }
