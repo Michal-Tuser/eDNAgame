@@ -26,10 +26,44 @@
   </div>
 
   <script src="script.js"></script>
-  <style id="final-boost">
-/* FORCE big icon/sequence on phones & tablets; keep desktop as-is */
-/* This sits in the HTML so it wins over any old CSS, and uses !important. */
+<style id="size-lock-v10">
+/* DESKTOP & LAPTOP (>=1025px): make icon/seq clearly larger */
+@media (min-width: 1025px){
+  html body #result-container{
+    max-width: 880px !important;
+    margin: 0 auto !important;
+    text-align: left !important;
+  }
+  /* Icon/sequence cell */
+  html body #code-container .code-item,
+  html body #code-container .code-row > :nth-child(2){
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+    font-weight: 700 !important;
+    letter-spacing: .02em !important;
+    font-size: 22px !important;       /* bump desktop text */
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+  }
+  /* Icon images inside that cell */
+  html body #code-container .code-item img,
+  html body #code-container .code-row > :nth-child(2) img{
+    width: 28px !important;
+    height: 28px !important;
+    object-fit: contain !important;
+    vertical-align: -2px !important;
+    margin-right: .35rem !important;
+  }
+  /* Keep select moderate on desktop */
+  html body #code-container select{
+    font-size: 16px !important;
+    width: 260px !important;
+    padding: 0.55em 0.9em !important;
+    margin-left: 0 !important;
+  }
+}
 
+/* PHONES & TABLETS (<=1024px): make icon/seq VERY big; shrink select a bit */
 @media (max-width: 1024px){
   html body #result-container{
     max-width: 96vw !important;
@@ -37,38 +71,38 @@
     text-align: left !important;
   }
 
-  /* Hide the left index column to reclaim space */
+  /* Hide the left index to reclaim space */
   html body #code-container .code-row > :first-child{
     display: none !important;
   }
 
-  /* ICON / COLORED SEQUENCE — ~2× bigger than before */
+  /* Icon/sequence cell (text DNA) – MUCH bigger */
   html body #code-container .code-item,
   html body #code-container .code-row > :nth-child(2){
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
     font-weight: 700 !important;
     letter-spacing: .02em !important;
-    font-size: min(14vw, 52px) !important;   /* ← bump this higher if you want EVEN bigger */
-    line-height: 1.2 !important;
+    font-size: min(18vw, 64px) !important;   /* ↑ make larger if you want */
+    line-height: 1.15 !important;
     white-space: nowrap !important;
     margin: 0 !important;
   }
 
-  /* If the cell contains an <img> icon, grow it too */
+  /* If the cell contains an <img> icon */
   html body #code-container .code-item img,
   html body #code-container .code-row > :nth-child(2) img{
-    width:  min(16vw, 60px) !important;
-    height: min(16vw, 60px) !important;
+    width:  min(20vw, 72px) !important;
+    height: min(20vw, 72px) !important;
     object-fit: contain !important;
     vertical-align: -2px !important;
     margin-right: .4rem !important;
   }
 
-  /* Dropdown: a bit smaller and shorter so the seq/icon stands out */
+  /* Dropdown: smaller & shorter so the big seq/icon stands out */
   html body #code-container select{
-    font-size: min(4.5vw, 18px) !important;
-    padding: 0.55em 0.8em !important;
-    width: clamp(54vw, 60vw, 70vw) !important;
+    font-size: min(4vw, 16px) !important;
+    width: clamp(48vw, 56vw, 64vw) !important;  /* shorter than before */
+    padding: 0.5em 0.8em !important;
     margin-left: 0 !important;
   }
 
@@ -81,11 +115,8 @@
     flex-wrap: nowrap !important;
   }
 }
-
-@media (min-width: 1025px){
-  html body #result-container{ max-width: 860px !important; margin: 0 auto !important; }
-}
 </style>
+
 
 </body>
 </html>
