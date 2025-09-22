@@ -26,5 +26,66 @@
   </div>
 
   <script src="script.js"></script>
+  <style id="final-boost">
+/* FORCE big icon/sequence on phones & tablets; keep desktop as-is */
+/* This sits in the HTML so it wins over any old CSS, and uses !important. */
+
+@media (max-width: 1024px){
+  html body #result-container{
+    max-width: 96vw !important;
+    margin: 0 auto !important;
+    text-align: left !important;
+  }
+
+  /* Hide the left index column to reclaim space */
+  html body #code-container .code-row > :first-child{
+    display: none !important;
+  }
+
+  /* ICON / COLORED SEQUENCE — ~2× bigger than before */
+  html body #code-container .code-item,
+  html body #code-container .code-row > :nth-child(2){
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+    font-weight: 700 !important;
+    letter-spacing: .02em !important;
+    font-size: min(14vw, 52px) !important;   /* ← bump this higher if you want EVEN bigger */
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+  }
+
+  /* If the cell contains an <img> icon, grow it too */
+  html body #code-container .code-item img,
+  html body #code-container .code-row > :nth-child(2) img{
+    width:  min(16vw, 60px) !important;
+    height: min(16vw, 60px) !important;
+    object-fit: contain !important;
+    vertical-align: -2px !important;
+    margin-right: .4rem !important;
+  }
+
+  /* Dropdown: a bit smaller and shorter so the seq/icon stands out */
+  html body #code-container select{
+    font-size: min(4.5vw, 18px) !important;
+    padding: 0.55em 0.8em !important;
+    width: clamp(54vw, 60vw, 70vw) !important;
+    margin-left: 0 !important;
+  }
+
+  /* Keep each row tight */
+  html body #code-container .code-row{
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding: 6px 0 !important;
+    flex-wrap: nowrap !important;
+  }
+}
+
+@media (min-width: 1025px){
+  html body #result-container{ max-width: 860px !important; margin: 0 auto !important; }
+}
+</style>
+
 </body>
 </html>
