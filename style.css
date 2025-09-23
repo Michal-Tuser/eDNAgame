@@ -13,16 +13,6 @@ button{
   padding: 2vh 6vw;
 }
 
-/* Language flags on index.html */
-.flag{
-  width:25vw; max-width:150px; aspect-ratio:3/2;
-  object-fit:contain; background:#fff; border:1px solid #e5e7eb;
-  border-radius:10px; cursor:pointer; margin:5vw;
-}
-
-/* “old” analyzer item (kept for safety) */
-.code-item{ font-family: monospace; font-size:1.2em; margin:0; }
-
 /* Color mapping */
 .base{ font-weight:600; }
 .base-a{ color:#d32f2f; } /* A */
@@ -30,156 +20,80 @@ button{
 .base-g{ color:#388e3c; } /* G */
 .base-t{ color:#f57c00; } /* T */
 
-/* ===== Analyzer layout ===== */
-#result-container{
-  max-width: 96vw;     /* wide on phones */
-  margin: 0 auto;
-  text-align: left;    /* rows + button share left edge */
-}
+/* ===== Analyzer sizing — clean v11 ===== */
 
-#code-container{
-  display:flex;
-  flex-direction:column;
-  gap:8px;             /* space between rows */
-}
+/* Center results column */
+#result-container { max-width: 880px; margin: 0 auto; text-align: left; }
 
-/* If your script wraps each row in .code-row this will apply; if not, harmless */
-#code-container .code-row{
-  display:flex; align-items:center; gap:10px; flex-wrap:nowrap; padding:6px 0;
-}
+/* If your script wraps rows into .code-row, this keeps them tidy. Harmless if not present. */
+#code-container { display: flex; flex-direction: column; gap: 8px; }
+#code-container .code-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
 
-/* OPTIONAL: hide row index to save space on small screens (turned on below for <=600px) */
-#code-container .code-row > :first-child{ min-width:2.4ch; text-align:right; opacity:.6; }
+/* Optional index number (1st cell). Hidden on phones below. */
+#code-container .code-row > :first-child { min-width: 2.4ch; text-align: right; opacity: .6; }
 
-/* Icon / colored DNA column — match index.html vibe */
+/* === Icon / colored DNA (2nd cell OR .code-item) === */
 #code-container .code-item,
-#code-container .code-row > :nth-child(2){
+#code-container .code-row > :nth-child(2) {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-weight:700; letter-spacing:.02em;
-  font-size: clamp(0.98rem, 2.4vw, 1.1rem);
-  line-height:1.15; white-space:nowrap;
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.15;
+  white-space: nowrap;
+  margin: 0;
 }
 
-/* If that cell contains an <img> icon */
+/* Images inside that cell (species icons) */
 #code-container .code-item img,
-#code-container .code-row > :nth-child(2) img{
-  width: clamp(22px, 2.6vw, 28px);
-  height: clamp(22px, 2.6vw, 28px);
-  object-fit:contain; vertical-align:-2px; margin-right:.25rem;
+#code-container .code-row > :nth-child(2) img {
+  object-fit: contain;
+  vertical-align: -2px;
+  margin-right: .35rem;
 }
 
 /* Dropdown next to it */
-#code-container select{
-  width: clamp(160px, 30vw, 320px);
-  font-size: 1em; padding: .7em .9em;
-  margin-left:0; /* make sure nothing pushes it away */
-}
+#code-container select { margin-left: 0; }
 
-/* ✔/✖ mark cell if you use it */
-#code-container .result-mark{ width:1.5em; text-align:center; }
+/* Answer mark at row end */
+#code-container .result-mark { text-align: center; }
 
-/* “Check answer” button area aligns with rows */
-#result-container .actions{ display:flex; justify-content:flex-start; margin-top:10px; }
+/* ===== Phones & Tablets (≤ 1024px) ===== */
+@media (max-width: 1024px){
+  /* Global text bump */
+  body { font-size: clamp(1.2rem, 7.5vw, 2rem); padding: 3vh 3vw; }
 
-/* ===== Small phones (<= 600px) ===== */
-@media (max-width: 600px){
-  body{ font-size: clamp(1.05rem, 6.8vw, 1.6rem); padding:3vh 3vw; }
+  /* Titles / labels / buttons larger on mobile */
+  h1 { font-size: clamp(1.6rem, 8vw, 2.4rem); }
+  h2 { font-size: clamp(1.3rem, 6.4vw, 2rem); }
+  label, button { font-size: clamp(1rem, 4.8vw, 1.4rem); }
 
-  /* Hide the index numbers on phones to reclaim space */
-  #code-container .code-row > :first-child{ display:none; }
-
-  /* Bigger icon/DNA and bigger icon images */
-  #code-container .code-item,
-  #code-container .code-row > :nth-child(2){
-    font-size: clamp(1.1rem, 4.6vw, 1.35rem);
-  }
-  #code-container .code-item img,
-  #code-container .code-row > :nth-child(2) img{
-    width: clamp(26px, 5.6vw, 34px);
-    height: clamp(26px, 5.6vw, 34px);
-    margin-right:.35rem;
-  }
-
-  /* Wider, more touch-friendly select */
-  #code-container select{
-    width: clamp(68vw, 72vw, 92vw);
-    font-size: clamp(1rem, 4.8vw, 1.2rem);
-  }
-}
-
-/* ===== Tablets / desktop (>= 768px) ===== */
-@media (min-width: 768px){
-  body{ font-size:1.2em; padding:40px; }
-  button{ font-size:1em; padding:10px 30px; }
-
-  .flag{ width:100px; margin:20px; }
-
-  #result-container{ max-width: 860px; } /* tidy column on big screens */
-  #code-container select{ width: clamp(200px, 28vw, 320px); }
-  #code-container .code-item,
-  #code-container .code-row > :nth-child(2){ font-size: clamp(1rem, 1.4vw, 1.1rem); }
-  #code-container .code-item img,
-  #code-container .code-row > :nth-child(2) img{
-    width: clamp(24px, 1.8vw, 28px); height: clamp(24px, 1.8vw, 28px);
-  }
-
-}
-/* === MOBILE TUNING v8 (<=600px): larger icons/sequences, smaller selects, bigger text === */
-@media (max-width: 600px){
-  /* Global text bump on phone */
-  body{
-    font-size: clamp(1.2rem, 7.6vw, 1.9rem);
-    padding: 3vh 3vw;
-  }
-
-  /* Hide row index to reclaim space */
+  /* Hide index numbers to reclaim space */
   #code-container .code-row > :first-child { display: none; }
 
-  /* ICON / COLORED SEQUENCE — much larger */
+  /* BIG icon/sequence */
   #code-container .code-item,
-  #code-container .code-row > :nth-child(2){
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-weight: 700;
-    letter-spacing: .02em;
-    font-size: min(12vw, 44px);   /* was ~8vw → now ~2× */
-    line-height: 1.15;
-    white-space: nowrap;
-    margin: 0;
-  }
-  /* If that cell contains an <img> icon */
+  #code-container .code-row > :nth-child(2) { font-size: min(24vw, 88px); }
   #code-container .code-item img,
-  #code-container .code-row > :nth-child(2) img{
-    width:  min(14vw, 52px);
-    height: min(14vw, 52px);
-    object-fit: contain;
-    vertical-align: -2px;
-    margin-right: .4rem;
-  }
+  #code-container .code-row > :nth-child(2) img { width: min(24vw, 88px); height: min(24vw, 88px); }
 
-  /* DROPDOWN — a bit smaller and shorter so icon/seq stands out more */
-  #code-container select{
-    font-size: min(4.5vw, 18px);  /* down from the big debug size */
-    padding: 0.55em 0.8em;
-    width: clamp(54vw, 60vw, 70vw); /* shorter than before */
-    margin-left: 0;
-  }
+  /* Dropdown: a bit smaller and shorter so seq/icon dominates */
+  #code-container select { font-size: min(4.8vw, 18px); width: clamp(48vw, 56vw, 64vw); padding: .55em .8em; }
 
-  /* Keep rows snug */
-  #code-container .code-row{
-    gap: 0.5rem;
-    padding: 6px 0;
-    flex-wrap: nowrap;
-  }
+  /* Answer markers bigger, in proportion */
+  #code-container .result-mark { width: 1.8em; font-size: min(12vw, 44px); }
 }
 
-/* === DESKTOP KEEPERS (>=768px) — unchanged nice look === */
-@media (min-width: 768px){
-  #result-container{ max-width: 860px; }
-  #code-container select{ width: clamp(200px, 28vw, 320px); }
+/* ===== Desktop & Laptop (≥ 1025px) ===== */
+@media (min-width: 1025px){
+  /* Icon/sequence comfortably larger on computer screens */
   #code-container .code-item,
-  #code-container .code-row > :nth-child(2){ font-size: clamp(1rem, 1.4vw, 1.1rem); }
+  #code-container .code-row > :nth-child(2) { font-size: 32px; }
   #code-container .code-item img,
-  #code-container .code-row > :nth-child(2) img{
-    width: clamp(24px, 1.8vw, 28px); height: clamp(24px, 1.8vw, 28px);
-  }
+  #code-container .code-row > :nth-child(2) img { width: 48px; height: 48px; }
+
+  /* Dropdown moderate size */
+  #code-container select { font-size: 22px; width: 260px; padding: .55em .9em; }
+
+  /* Answer markers clear but not huge */
+  #code-container .result-mark { width: 1.8em; font-size: 28px; }
 }
