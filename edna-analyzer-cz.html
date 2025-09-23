@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>eDNA Analyzátor (CZ)</title>
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=11">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
@@ -26,97 +26,5 @@
   </div>
 
   <script src="script.js"></script>
-<style id="size-lock-v10">
-/* DESKTOP & LAPTOP (>=1025px): make icon/seq clearly larger */
-@media (min-width: 1025px){
-  html body #result-container{
-    max-width: 880px !important;
-    margin: 0 auto !important;
-    text-align: left !important;
-  }
-  /* Icon/sequence cell */
-  html body #code-container .code-item,
-  html body #code-container .code-row > :nth-child(2){
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
-    font-weight: 700 !important;
-    letter-spacing: .02em !important;
-    font-size: 32px !important;       /* bump desktop text */
-    line-height: 1.15 !important;
-    white-space: nowrap !important;
-    margin: 0 !important;
-  }
-  /* Icon images inside that cell */
-  html body #code-container .code-item img,
-  html body #code-container .code-row > :nth-child(2) img{
-    width: 48px !important;
-    height: 48px !important;
-    object-fit: contain !important;
-    vertical-align: -2px !important;
-    margin-right: .35rem !important;
-  }
-  /* Keep select moderate on desktop */
-  html body #code-container select{
-    font-size: 22px !important;
-    width: 260px !important;
-    padding: 0.55em 0.9em !important;
-    margin-left: 0 !important;
-  }
-}
-
-/* PHONES & TABLETS (<=1024px): make icon/seq VERY big; shrink select a bit */
-@media (max-width: 1024px){
-  html body #result-container{
-    max-width: 96vw !important;
-    margin: 0 auto !important;
-    text-align: left !important;
-  }
-
-  /* Hide the left index to reclaim space */
-  html body #code-container .code-row > :first-child{
-    display: none !important;
-  }
-
-  /* Icon/sequence cell (text DNA) – MUCH bigger */
-  html body #code-container .code-item,
-  html body #code-container .code-row > :nth-child(2){
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
-    font-weight: 700 !important;
-    letter-spacing: .02em !important;
-    font-size: min(24vw, 88px) !important;   /* ↑ make larger if you want */
-    line-height: 1.15 !important;
-    white-space: nowrap !important;
-    margin: 0 !important;
-  }
-
-  /* If the cell contains an <img> icon */
-  html body #code-container .code-item img,
-  html body #code-container .code-row > :nth-child(2) img{
-    width:  min(24vw, 88px) !important;
-    height: min(24vw, 88px) !important;
-    object-fit: contain !important;
-    vertical-align: -2px !important;
-    margin-right: .4rem !important;
-  }
-
-  /* Dropdown: smaller & shorter so the big seq/icon stands out */
-  html body #code-container select{
-    font-size: min(8vw, 32px) !important;
-    width: clamp(48vw, 56vw, 64vw) !important;  /* shorter than before */
-    padding: 0.5em 0.8em !important;
-    margin-left: 0 !important;
-  }
-
-  /* Keep each row tight */
-  html body #code-container .code-row{
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.5rem !important;
-    padding: 6px 0 !important;
-    flex-wrap: nowrap !important;
-  }
-}
-</style>
-
-
 </body>
 </html>
