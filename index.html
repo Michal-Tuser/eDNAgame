@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Select Language</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E4431SE1Z9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    // Basic page view + EU-friendly IP anonymization
+    gtag('config', 'G-E4431SE1Z9', {
+      'anonymize_ip': true
+      // , 'debug_mode': true   // (optional) turn on while testing
+    });
+  </script>
+  
   <style>
     body { text-align: center; font-family: sans-serif; padding-top: 10vh; font-size: 4vw; }
     h1 { font-size: 6vw; margin-bottom: 3vh; }
@@ -73,84 +88,128 @@
   </div>
 
   <script>
-    // Localized labels and target pages
-    const L = {
-      cz: {
-        title: "Vyberte obtížnost",
-        icons: "Začátečník",
-        seq:   "Profík",
-        start: "Spustit hru",
-        target: "edna-analyzer-cz.html"
-      },
-      en: {
-        title: "Choose difficulty",
-        icons: "Beginner",
-        seq:   "Pro",
-        start: "Start",
-        target: "edna-analyzer-en.html"
-      }
-    };
-
-    let chosenLang = null;
-
-    const titleEl   = document.getElementById('title');
-    const diffBox   = document.getElementById('difficulty');
-    const startRow  = document.getElementById('startRow');
-    const startBtn  = document.getElementById('startBtn');
-    const labelIcons= document.getElementById('labelIcons');
-    const labelSeq  = document.getElementById('labelSeq');
-
-    function currentLevel() {
-      const sel = document.querySelector('input[name="level"]:checked');
-      return sel ? sel.value : 'icons';
+  // Localized labels and target pages
+  const L = {
+    cz: {
+      title: "Vyberte obtížnost",
+      icons: "Začátečník (ikonky)",
+      seq:   "Profík (sekvence)",
+      start: "Spustit hru",
+      target: "edna-analyzer-cz.html"
+    },
+    en: {
+      title: "Choose difficulty",
+      icons: "Beginner (icons)",
+      seq:   "Pro (sequences)",
+      start: "Start",
+      target: "edna-analyzer-en.html"
     }
+  };
 
-    function updateStartHref() {
-      if (!chosenLang) return;
-      const level = currentLevel();
-      startBtn.href = `${L[chosenLang].target}?level=${encodeURIComponent(level)}`;
-    }
+  let chosenLang = null;
 
-    function selectLanguage(lang) {
-      chosenLang = lang;
-      // Update UI text to the chosen language
-      titleEl.textContent = L[lang].title;
-      labelIcons.textContent = L[lang].icons;
-      labelSeq.textContent   = L[lang].seq;
-      startBtn.textContent   = L[lang].start;
-      // Reveal difficulty + start button
-      diffBox.style.display  = 'block';
-      startRow.style.display = 'block';
-      updateStartHref();
-    }
+  const titleEl   = document.getElementById('title');
+  const diffBox   = document.getElementById('difficulty');
+  const startRow  = document.getElementById('startRow');
+  const startBtn  = document.getElementById('startBtn');
+  const labelIcons= document.getElementById('labelIcons');
+  const labelSeq  = document.getElementById('labelSeq');
 
-    // Intercept flag clicks to pick language first (and NOT navigate yet)
-    document.getElementById('czPick').addEventListener('click', (e) => {
-      e.preventDefault();
-      selectLanguage('cz');
-    });
-    document.getElementById('enPick').addEventListener('click', (e) => {
-      e.preventDefault();
-      selectLanguage('en');
-    });
-
-    // Keep start link in sync when difficulty changes
-    document.addEventListener('change', (e) => {
-      if (e.target && e.target.name === 'level') updateStartHref();
-    });
-
-    function colorizeDNA(seq){
-    const map = { A:'<b class="base-a">A</b>', C:'<b class="base-c">C</b>', G:'<b class="base-g">G</b>', T:'<b class="base-t">T</b>' };
-    return (seq||'').toUpperCase().split('').map(ch => map[ch] || ch).join('');
+  function currentLevel() {
+    const sel = document.querySelector('input[name="level"]:checked');
+    return sel ? sel.value : 'icons';
   }
-  // render once
+
+  function updateStartHref() {
+    if (!chosenLang) return;
+    const level = currentLevel();
+    startBtn.href = `${L[chosenLang].target}?level=${encodeURIComponent(level)}`;
+  }
+
+  function selectLanguage(lang) {
+    chosenLang = lang;
+
+    // --- GA: log language selection
+    if (window.gtag) {
+      gtag('event', 'select_language', { language: lang });
+    }
+
+    // Update UI text to the chosen language
+    titleEl.textContent = L[lang].title;
+    labelIcons.textContent = L[lang].icons;
+    labelSeq.textContent   = L[lang].seq;
+    startBtn.textContent   = L[lang].start;
+    // Reveal difficulty + start button
+    diffBox.style.display  = 'block';
+    startRow.style.display = 'block';
+    updateStartHref();
+  }
+
+  // Intercept flag clicks to pick language first (and NOT navigate yet)
+  document.getElementById('czPick').addEventListener('click', (e) => {
+    e.preventDefault();
+    selectLanguage('cz');
+  });
+  document.getElementById('enPick').addEventListener('click', (e) => {
+    e.preventDefault();
+    selectLanguage('en');
+  });
+
+  // Keep start link in sync when difficulty changes
+  document.addEventListener('change', (e) => {
+    if (e.target && e.target.name === 'level') {
+      updateStartHref();
+
+      // --- GA: log difficulty change
+      if (window.gtag) {
+        gtag('event', 'select_content', {
+          content_type: 'difficulty',
+          item_id: currentLevel()
+        });
+      }
+    }
+  });
+
+  // --- GA: log "Start" click (includes chosen language & level)
+  startBtn.addEventListener('click', () => {
+    if (window.gtag) {
+      gtag('event', 'begin_game', {
+        language: chosenLang || '(not set)',
+        level: currentLevel()
+      });
+    }
+    // navigation proceeds normally via the href
+  });
+
+    // --- DNA colorizer
+  function colorizeDNA(seq){
+    const map = {
+      A:'<b class="base-a">A</b>',
+      C:'<b class="base-c">C</b>',
+      G:'<b class="base-g">G</b>',
+      T:'<b class="base-t">T</b>'
+    };
+    return (seq||'')
+      .toUpperCase()
+      .split('')
+      .map(ch => map[ch] || ch)
+      .join('');
+  }
+
+  // Render once for legacy #seqPreview
   (function(){
     const el = document.getElementById('seqPreview');
     if (el) el.innerHTML = colorizeDNA(el.dataset.seq || el.textContent.trim());
   })();
-  </script>
+
+  // Optional: render all elements that declare a data-seq attribute
+  document.querySelectorAll('[data-seq]').forEach(el => {
+    el.innerHTML = colorizeDNA(el.dataset.seq);
+  });
+</script>
 </body>
 </html>
+
 
 
 
