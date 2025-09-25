@@ -26,8 +26,8 @@ button{
 #result-container { max-width: 880px; margin: 0 auto; text-align: left; }
 
 /* If your script wraps rows into .code-row, this keeps them tidy. Harmless if not present. */
-#code-container { display: flex; flex-direction: column; gap: 8px; }
-#code-container .code-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+#code-container { display: flex; flex-direction: column; gap: 12px; }
+#code-container .code-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
 
 /* Optional index number (1st cell). Hidden on phones below. */
 #code-container .code-row > :first-child { min-width: 2.4ch; text-align: right; opacity: .6; }
@@ -77,7 +77,7 @@ button{
   #code-container .code-row > :nth-child(2) img { width: min(24vw, 88px); height: min(24vw, 88px); }
 
   /* Dropdown: a bit smaller and shorter so seq/icon dominates */
-  #code-container select { font-size: min(4.8vw, 18px); width: clamp(48vw, 56vw, 64vw); padding: .55em .8em; }
+  #code-container select { font-size: min(6vw, 22px); width: clamp(32vw, 40vw, 48vw); padding: .7em .9em; }
 
   /* Answer markers bigger, in proportion */
   #code-container .result-mark { width: 1.8em; font-size: min(12vw, 44px); }
